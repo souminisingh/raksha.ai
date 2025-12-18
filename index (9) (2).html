@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Raksha.ai - Hyper-Advanced Safety Portal v8.0</title>
     
     <!-- Phase 4: Embedded Manifest for PWA -->
@@ -13,9 +13,9 @@
 
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <script crossorigin src="https://unpkg.com/react@18.2.0/umd/react.development.js"></script>
-    <script crossorigin src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.development.js"></script>
-    
+    <script src="https://unpkg.com/react@18.2.0/umd/react.production.min.js"></script>
+    <script src="https://unpkg.com/react-dom@18.2.0/umd/react-dom.production.min.js"></script>
+
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -45,6 +45,15 @@
             will-change: transform;
             transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
         }
+        /* Mobile optimization for glass-panel */
+@media (max-width: 768px) {
+    .glass-panel {
+        backdrop-filter: none;
+        -webkit-backdrop-filter: none;
+        background: rgba(13, 13, 25, 0.9);
+    }
+}
+
         
         .glass-panel:hover {
             border-color: rgba(244, 63, 94, 0.2); /* Rose tint on hover */
@@ -228,7 +237,8 @@
         @keyframes glitch-anim-2 { 0% { clip-path: inset(10% 0 60% 0); } 20% { clip-path: inset(30% 0 20% 0); } 40% { clip-path: inset(70% 0 10% 0); } 60% { clip-path: inset(20% 0 50% 0); } 80% { clip-path: inset(90% 0 5% 0); } 100% { clip-path: inset(15% 0 80% 0); } }
     </style>
 </head>
-<body class="selection:bg-rose-500/30 selection:text-white">
+<body class="selection:bg-rose-500/30 selection:text-white touch-manipulation">
+
     
     <div id="root" class="relative z-10 h-full"></div>
 
@@ -479,7 +489,8 @@
                                 <span className="text-[10px] font-mono text-rose-300 tracking-widest uppercase font-bold">System Status: Critical</span>
                             </div>
                             
-                            <h1 className="text-4xl md:text-8xl font-black tracking-tighter leading-[0.9]">
+                    <h1 className="text-3xl sm:text-4xl md:text-8xl font-black tracking-tighter">
+
                                 DON'T BE A <br/>
                                 <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 via-fuchsia-500 to-purple-600">STATISTIC.</span>
                             </h1>
@@ -588,7 +599,7 @@
             const [time, setTime] = useState(new Date().toLocaleTimeString());
             useEffect(() => { const timer = setInterval(() => setTime(new Date().toLocaleTimeString()), 1000); return () => clearInterval(timer); }, []);
             return (
-                <div className="hidden lg:flex fixed top-6 right-8 gap-6 z-40 font-mono text-[10px] tracking-[0.2em] text-cyan-200/70 glass-panel px-8 py-3 rounded-full uppercase transition-all hover:bg-white/5 border border-cyan-500/20 hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)]">
+                <div className="hidden xl:flex fixed top-6 right-8" gap-6 z-40 font-mono text-[10px] tracking-[0.2em] text-cyan-200/70 glass-panel px-8 py-3 rounded-full uppercase transition-all hover:bg-white/5 border border-cyan-500/20 hover:border-cyan-400/50 hover:shadow-[0_0_20px_rgba(6,182,212,0.15)]">
                     <div className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_10px_rgba(52,211,153,0.8)]"></span><span className="text-emerald-400 font-bold">{user ? 'ONLINE' : 'OFFLINE'}</span></div>
                     {user && <><div className="w-px h-3 bg-white/10"></div><div className="flex items-center gap-2"><Icons.Users className="w-3 h-3 text-cyan-400" /><span className="max-w-[100px] truncate">{extractName(user.email)}</span></div></>}
                     <div className="w-px h-3 bg-white/10"></div><div className="flex items-center gap-2"><Icons.Battery className="w-3 h-3 text-cyan-400" /><span>{battery}%</span></div>

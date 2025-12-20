@@ -319,6 +319,84 @@
             </div>
         );
 
+        // --- AUDIO ENGINE (FEATURE 8) ---
+        class SirenManager {
+            constructor() {
+                this.audioCtx = null;
+                this.oscillator = null;
+                this.gainNode = null;
+                this.lfo = null;
+                this.lfoGain = null;
+            }
+
+            isActive() {
+                return !!this.oscillator;
+            }
+
+            start() {
+                try {
+                    if (!this.audioCtx) {
+                        this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    }
+                    if (this.audioCtx.state === 'suspended') {
+                        this.audioCtx.resume();
+                    }
+
+                    // Main sound source (Sawtooth for harshness)
+                    this.oscillator = this.audioCtx.createOscillator();
+                    this.oscillator.type = 'sawtooth';
+                    this.oscillator.frequency.value = 800; // Base frequency
+
+                    // Volume control
+                    this.gainNode = this.audioCtx.createGain();
+                    this.gainNode.gain.value = 0.5;
+
+                    // LFO for the "Wail" effect (Low Frequency Oscillator)
+                    this.lfo = this.audioCtx.createOscillator();
+                    this.lfo.type = 'sine';
+                    this.lfo.frequency.value = 2; // Speed of the wail (2 Hz)
+
+                    this.lfoGain = this.audioCtx.createGain();
+                    this.lfoGain.gain.value = 400; // Depth of the wail (+- 400 Hz)
+
+                    // Connect graph: LFO -> LFO Gain -> Oscillator Frequency
+                    this.lfo.connect(this.lfoGain);
+                    this.lfoGain.connect(this.oscillator.frequency);
+
+                    // Connect graph: Oscillator -> Volume -> Speakers
+                    this.oscillator.connect(this.gainNode);
+                    this.gainNode.connect(this.audioCtx.destination);
+
+                    // Start sound
+                    this.oscillator.start();
+                    this.lfo.start();
+                } catch (e) {
+                    console.error("Audio Context Error:", e);
+                }
+            }
+
+            stop() {
+                try {
+                    if (this.oscillator) {
+                        this.oscillator.stop();
+                        this.oscillator.disconnect();
+                        this.oscillator = null;
+                    }
+                    if (this.lfo) {
+                        this.lfo.stop();
+                        this.lfo.disconnect();
+                        this.lfo = null;
+                    }
+                    if (this.gainNode) {
+                        this.gainNode.disconnect();
+                        this.gainNode = null;
+                    }
+                } catch (e) {
+                    console.error("Error stopping audio:", e);
+                }
+            }
+        }
+
         // --- VIEWS ---
 
         const ContactsView = ({ user, onBack }) => {
@@ -476,9 +554,33 @@
 
         const HomeView = ({ user, setView }) => {
             const [isSOSActive, setIsSOSActive] = useState(false);
+            const [isSirenActive, setIsSirenActive] = useState(false); // FEATURE 8
             const [countdown, setCountdown] = useState(5);
             const [guardianCount, setGuardianCount] = useState(0);
             const timerRef = useRef(null);
+            
+            // Ref for the Siren Manager
+            const sirenRef = useRef(null);
+
+            useEffect(() => {
+                sirenRef.current = new SirenManager();
+                return () => {
+                    // Cleanup siren on unmount
+                    if (sirenRef.current) sirenRef.current.stop();
+                };
+            }, []);
+
+            const toggleSiren = () => {
+                if (!sirenRef.current) return;
+
+                if (isSirenActive) {
+                    sirenRef.current.stop();
+                    setIsSirenActive(false);
+                } else {
+                    sirenRef.current.start();
+                    setIsSirenActive(true);
+                }
+            };
 
             useEffect(() => {
                 if (!user) return;
@@ -550,7 +652,7 @@
                         </p>
                     </div>
 
-                    {/* FEATURE 6: Updated Grid with Helplines */}
+                    {/* FEATURE 6 & 8: Updated Grid with Helplines and Siren */}
                     <div className="grid grid-cols-2 gap-3 mt-auto">
                         <button onClick={() => setView('contacts')} className="glass-panel p-4 rounded-2xl flex flex-col items-center justify-center gap-2 active:scale-95 transition-transform border-l-4 border-l-purple-500">
                             <div className="p-3 bg-purple-500/20 rounded-full text-purple-400">
@@ -578,6 +680,19 @@
                                 <Icon name="MapPin" className="w-6 h-6" />
                             </div>
                             <span className="text-sm font-semibold text-slate-200">Safe Map</span>
+                        </button>
+
+                        {/* FEATURE 8: Siren Button */}
+                        <button 
+                            onClick={toggleSiren}
+                            className={`glass-panel p-4 rounded-2xl flex flex-col items-center justify-center gap-2 active:scale-95 transition-all border-l-4 col-span-2 ${isSirenActive ? 'bg-orange-500/20 border-l-orange-500 animate-pulse ring-2 ring-orange-500/50' : 'border-l-orange-500'}`}
+                        >
+                            <div className={`p-3 rounded-full ${isSirenActive ? 'bg-orange-500 text-white' : 'bg-orange-500/20 text-orange-400'}`}>
+                                <Icon name="Megaphone" className="w-6 h-6" />
+                            </div>
+                            <span className={`text-sm font-semibold ${isSirenActive ? 'text-white' : 'text-slate-200'}`}>
+                                {isSirenActive ? 'STOP SIREN' : 'Loud Siren'}
+                            </span>
                         </button>
                     </div>
 
@@ -877,7 +992,7 @@
                                         { id: 'home', label: 'Dashboard', icon: 'Home' },
                                         { id: 'contacts', label: 'Guardian Contacts', icon: 'Users' },
                                         { id: 'helplines', label: 'Emergency Numbers', icon: 'Phone' },
-                                        { id: 'rights', label: 'Women Rights', icon: 'Scale' }, // FEATURE 7
+                                        { id: 'rights', label: 'Women Rights', icon: 'Scale' },
                                         { id: 'map', label: 'Safe Map', icon: 'MapPin' },
                                         { id: 'protocol', label: 'Safety Protocols', icon: 'BookOpen' },
                                         { id: 'legal', label: 'Legal Info', icon: 'FileText' }

@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -8,7 +9,7 @@
     <title>Daily Calculator</title>
     
     <!-- FEATURE 3: Disguised PWA Manifest -->
-    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiRGFpbHkgQ2FsY3VsYXRvciIsInNob3J0X25hbWUiOiJDYWxjdWxhdG9yIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMwMjA2MTciLCJ0aGVtZV9jb2xvciI6IiMwMjA2MTciLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0IiwiaWNvbnMiOlt7InNyYyI6Imh0dHBzOi8vY2dnLmNvbS9hcGkvdjEvZ2V0X2ltYWdlP2ltYWdlX3VybD1odHRwczovL2ltYWdlcy51bnNwbGFzaC5jb20vcGhvdG8tMTU4NzE0NTgyOTYwNS00MTA1YTRjMGNmZDA/aXg9dXJsJnF1YWxpdHk9ODUmdz0xOTIiLCJzaXplcyI6IjE5MngxOTIiLCJ0eXBlIjoiaW1hZ2UvcG5nIn1dfQ==">
+    <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiRGFpbHkgQ2FsY3VsYXRvciIsInNob3J0X25hbWUiOiJDYWxjdWxhdG9yIiwic3RhcnRfdXJsIjoiLiIsImRpc3BsYXkiOiJzdGFuZGFsb25lIiwiYmFja2dyb3VuZF9jb2xvciI6IiMxZTI5M2IiLCJ0aGVtZV9jb2xvciI6IiMzMzQxNTUiLCJvcmllbnRhdGlvbiI6InBvcnRyYWl0IiwiaWNvbnMiOlt7InNyYyI6Imh0dHBzOi8vY2RuLWljb25zLXBuZy5mbGF0aWNvbi5jb20vNTEyLzIzNDQvMjM0NDEzMi5wbmciLCJzaXplcyI6IjE5MngxOTIiLCJ0eXBlIjoiaW1hZ2UvcG5nIn1dfQ==">
     
     <!-- iOS / PWA Meta Tags -->
     <meta name="mobile-web-app-capable" content="yes">
@@ -23,7 +24,7 @@
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+    <script src="https://unpkg.com/lucide@0.263.1"></script>
     <!-- React & ReactDOM -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
@@ -38,12 +39,7 @@
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: #020617; /* Midnight Blue Base */
-            /* Aesthetic: Deep, calming gradient mesh */
-            background-image: 
-                radial-gradient(circle at 0% 0%, rgba(79, 70, 229, 0.15) 0%, transparent 50%), 
-                radial-gradient(circle at 100% 100%, rgba(244, 63, 94, 0.1) 0%, transparent 50%),
-                linear-gradient(to bottom, #020617, #0f172a);
+            background-color: #020617; /* Slate 950 */
             color: #f8fafc;
             overscroll-behavior: none;
             margin: 0;
@@ -53,101 +49,101 @@
             overflow: hidden;
         }
         
-        /* Hide Scrollbar */
+        /* Hide Scrollbar but allow functionality */
         ::-webkit-scrollbar { display: none; }
-        * { -ms-overflow-style: none; scrollbar-width: none; -webkit-tap-highlight-color: transparent; }
+        * { -ms-overflow-style: none; scrollbar-width: none; }
         
-        /* Glassmorphism Classes */
         .glass-panel {
-            background: rgba(30, 41, 59, 0.4);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
-        }
-        
-        .glass-card {
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.05) 0%, rgba(255, 255, 255, 0.01) 100%);
+            background: rgba(15, 23, 42, 0.6);
             backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
         
-        .glass-card:active {
-            transform: scale(0.98);
-            background: rgba(255, 255, 255, 0.08);
-        }
-
-        /* Animations */
-        .pulse-soft {
-            animation: pulse-soft 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+        .pulse-ring {
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
         }
         
-        .pulse-urgent {
-            animation: pulse-urgent 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+        @keyframes pulse-ring {
+            0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.7); }
+            70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(244, 63, 94, 0); }
+            100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
         }
-
-        @keyframes pulse-soft {
-            0%, 100% { opacity: 1; transform: scale(1); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.0); }
-            50% { opacity: 0.9; transform: scale(1.02); box-shadow: 0 0 20px rgba(244, 63, 94, 0.1); }
-        }
-
-        @keyframes pulse-urgent {
-            0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0.7); }
-            70% { transform: scale(1.05); box-shadow: 0 0 0 30px rgba(244, 63, 94, 0); }
-            100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(244, 63, 94, 0); }
-        }
-
-        /* Tech/Grid Overlay */
-        .tech-grid {
-            background-size: 40px 40px;
-            background-image: linear-gradient(to right, rgba(255, 255, 255, 0.02) 1px, transparent 1px),
-                              linear-gradient(to bottom, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
-            mask-image: radial-gradient(circle at 50% 50%, black 40%, transparent 100%);
-        }
-
-        .animate-in { animation: fadeSlideUp 0.5s cubic-bezier(0.2, 0.8, 0.2, 1) forwards; }
-        @keyframes fadeSlideUp { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
         
-        .loader-ring {
-            width: 48px; height: 48px;
-            border: 4px solid rgba(255, 255, 255, 0.1);
-            border-left-color: #fb7185; /* Soft Coral */
+        /* Loading Spinner */
+        .initial-loader {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            color: #e2e8f0;
+        }
+        .spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid rgba(255,255,255,0.1);
+            border-left-color: #f43f5e;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
         @keyframes spin { 100% { transform: rotate(360deg); } }
+
+        /* Animation Utilities */
+        .animate-in { animation-duration: 0.3s; animation-fill-mode: forwards; }
+        .fade-in { animation-name: fadeIn; }
+        .slide-in-from-top-5 { animation-name: slideInTop; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes slideInTop { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
     </style>
 </head>
 <body>
+    <!-- Initial Loading State (Replaced by React) -->
     <div id="root">
-        <div class="flex flex-col items-center justify-center h-screen bg-[#020617] text-slate-400">
-            <div class="loader-ring mb-4"></div>
-            <p class="text-xs font-medium tracking-[0.2em] uppercase opacity-60">Initializing Security Layer</p>
+        <div class="initial-loader">
+            <div class="spinner"></div>
+            <p style="margin-top: 20px; font-size: 14px; opacity: 0.7;">Initializing Secure Environment...</p>
         </div>
     </div>
 
     <script type="text/babel">
         const { useState, useEffect, useRef, Component } = React;
 
-        // --- ERROR BOUNDARY ---
+        // --- ERROR BOUNDARY (Fixes Blank Screens) ---
         class ErrorBoundary extends Component {
             constructor(props) {
                 super(props);
-                this.state = { hasError: false, error: null };
+                this.state = { hasError: false, error: null, errorInfo: null };
             }
-            static getDerivedStateFromError(error) { return { hasError: true, error }; }
-            componentDidCatch(error, errorInfo) { console.error("Critical Error:", error, errorInfo); }
+
+            static getDerivedStateFromError(error) {
+                return { hasError: true, error };
+            }
+
+            componentDidCatch(error, errorInfo) {
+                console.error("Uncaught error:", error, errorInfo);
+                this.setState({ errorInfo });
+            }
+
             render() {
                 if (this.state.hasError) {
                     return (
-                        <div className="flex flex-col items-center justify-center h-screen bg-[#020617] p-8 text-center">
-                            <div className="w-16 h-16 bg-rose-500/10 rounded-full flex items-center justify-center mb-6 ring-1 ring-rose-500/30">
-                                <svg className="w-8 h-8 text-rose-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" /></svg>
+                        <div className="flex flex-col items-center justify-center h-screen bg-slate-900 p-6 text-center">
+                            <div className="w-16 h-16 bg-rose-500/20 rounded-full flex items-center justify-center mb-4">
+                                <svg className="w-8 h-8 text-rose-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+                                </svg>
                             </div>
-                            <h2 className="text-xl font-bold text-white mb-2">System Interrupted</h2>
-                            <p className="text-slate-400 text-sm mb-6">The security layer encountered an unexpected issue.</p>
-                            <button onClick={() => window.location.reload()} className="px-6 py-3 bg-slate-800 hover:bg-slate-700 text-white rounded-xl font-medium transition-all text-sm tracking-wide">REBOOT SYSTEM</button>
+                            <h2 className="text-xl font-bold text-white mb-2">Something went wrong</h2>
+                            <p className="text-slate-400 text-sm mb-6 max-w-md">
+                                {this.state.error && this.state.error.toString()}
+                            </p>
+                            <button 
+                                onClick={() => window.location.reload()} 
+                                className="px-6 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-lg font-medium transition-colors"
+                            >
+                                Reload App
+                            </button>
                         </div>
                     );
                 }
@@ -155,108 +151,250 @@
             }
         }
 
-        // --- FIREBASE SETUP ---
+        // --- ROBUST FIREBASE & ENV SETUP ---
         let auth, db;
         const appId = typeof __app_id !== 'undefined' ? __app_id : 'raksha-x-demo';
+        
+        // Mock DB Storage for Demo Mode
         const mockStorage = {}; 
 
         const initializeServices = () => {
             let isRealFirebase = false;
+            
             try {
-                if (typeof firebase !== 'undefined' && firebase.apps && typeof __firebase_config !== 'undefined') {
+                // Check if Firebase is available and configured
+                if (typeof firebase !== 'undefined' && 
+                    firebase.apps && 
+                    typeof __firebase_config !== 'undefined') {
+                    
                     const configStr = __firebase_config;
                     if (configStr) {
                         const firebaseConfig = JSON.parse(configStr);
                         if (firebaseConfig && firebaseConfig.apiKey) {
-                            if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+                            if (!firebase.apps.length) {
+                                firebase.initializeApp(firebaseConfig);
+                            }
                             auth = firebase.auth();
                             db = firebase.firestore();
                             isRealFirebase = true;
-                            auth.onAuthStateChanged(user => { if (!user) auth.signInAnonymously().catch(e => console.error("Auth Failed", e)); });
+                            console.log("Secure Connection Established (Real)");
+                            
+                            // Ensure we have a user for Real Firebase
+                            auth.onAuthStateChanged(user => {
+                                if (!user) {
+                                    console.log("No user found, signing in anonymously...");
+                                    auth.signInAnonymously().catch(e => console.error("Auth Failed", e));
+                                }
+                            });
                         }
                     }
                 }
-            } catch (e) { console.warn("Firebase Init Error", e); }
+            } catch (e) {
+                console.warn("Firebase Init Error, falling back to Demo Mode:", e);
+            }
 
             if (!isRealFirebase) {
+                console.log("Running in Demo Mode (Mock Environment)");
+                
+                // MOCK AUTH
                 auth = {
-                    onAuthStateChanged: (cb) => { setTimeout(() => cb({ uid: 'demo-user', displayName: 'Guardian' }), 800); return () => {}; },
+                    onAuthStateChanged: (cb) => {
+                        setTimeout(() => cb({ uid: 'demo-user', displayName: 'Guardian (Demo)' }), 600);
+                        return () => {};
+                    },
                     signInWithPopup: () => Promise.resolve(),
                     signInAnonymously: () => Promise.resolve(),
                     signOut: () => { window.location.reload(); },
-                    currentUser: { uid: 'demo-user', displayName: 'Guardian' }
+                    currentUser: { uid: 'demo-user', displayName: 'Guardian (Demo)' }
                 };
-                const createMockCollection = (path) => ({
-                    doc: () => ({
-                        collection: () => createMockCollection(),
-                        set: () => Promise.resolve(),
-                        get: () => Promise.resolve({ exists: false, data: () => ({}) }),
-                        delete: () => Promise.resolve(),
-                        add: () => Promise.resolve(),
-                        onSnapshot: (cb) => { cb({ docs: [] }); return () => {}; }
-                    }),
-                    add: () => Promise.resolve({ id: 'mock-' + Date.now() }),
-                    onSnapshot: (cb) => { cb({ docs: [] }); return () => {}; }
+
+                // MOCK DB (In-Memory for session persistence)
+                const getPathData = (path) => mockStorage[path] || [];
+                const setPathData = (path, data) => { mockStorage[path] = data; };
+
+                // Recursive Mock to handle infinite nesting
+                const createMockDoc = (path) => ({
+                    collection: (subPath) => createMockCollection(`${path}/${subPath}`),
+                    set: (data) => Promise.resolve(),
+                    get: () => Promise.resolve({ exists: false, data: () => ({}) }),
+                    delete: () => {
+                        // Find parent collection path to remove item from list
+                        const parts = path.split('/');
+                        const docId = parts.pop();
+                        const colPath = parts.join('/');
+                        let list = getPathData(colPath);
+                        list = list.filter(d => d.id !== docId);
+                        setPathData(colPath, list);
+                        return Promise.resolve();
+                    },
+                    update: (data) => Promise.resolve()
                 });
-                db = { collection: () => createMockCollection() };
+
+                const createMockCollection = (path) => ({
+                    doc: (id) => createMockDoc(`${path}/${id}`),
+                    add: (data) => {
+                        const newId = 'mock-' + Date.now();
+                        const list = getPathData(path);
+                        list.push({ id: newId, ...data });
+                        setPathData(path, list);
+                        return Promise.resolve({ id: newId });
+                    },
+                    onSnapshot: (cb) => {
+                        // Immediately return current data
+                        const list = getPathData(path);
+                        const docs = list.map(item => ({
+                            id: item.id,
+                            data: () => item
+                        }));
+                        cb({ docs });
+                        
+                        // Poll for changes (simulating real-time updates for demo)
+                        const interval = setInterval(() => {
+                            const currentList = getPathData(path);
+                            if (currentList.length !== list.length) {
+                                const newDocs = currentList.map(item => ({
+                                    id: item.id,
+                                    data: () => item
+                                }));
+                                cb({ docs: newDocs });
+                            }
+                        }, 1000);
+                        
+                        return () => clearInterval(interval);
+                    }
+                });
+                
+                db = { 
+                    collection: (path) => createMockCollection(path)
+                };
             }
         };
+
         initializeServices();
 
-        // --- ICON COMPONENT ---
+        // --- UTILITIES ---
+
         const Icon = ({ name, className, ...props }) => {
             const [isLoaded, setIsLoaded] = useState(typeof lucide !== 'undefined');
+            
             useEffect(() => {
                 if (isLoaded) return;
-                const interval = setInterval(() => { if (typeof lucide !== 'undefined') { setIsLoaded(true); clearInterval(interval); } }, 100);
+                const interval = setInterval(() => {
+                    if (typeof lucide !== 'undefined') {
+                        setIsLoaded(true);
+                        clearInterval(interval);
+                    }
+                }, 100);
                 return () => clearInterval(interval);
             }, [isLoaded]);
 
-            if (!isLoaded || !lucide) return <span className={`inline-block w-5 h-5 bg-white/5 rounded ${className}`} />;
-
-            let iconName = name;
-            const map = { 'LayoutDashboard': 'Layout', 'ShieldCheck': 'Shield', 'Megaphone': 'Speaker' };
-            if (!lucide.icons[iconName] && map[iconName] && lucide.icons[map[iconName]]) iconName = map[iconName];
-            if (!lucide.icons[iconName]) return <span className={`inline-block w-5 h-5 bg-white/5 rounded ${className}`} />;
+            // Robust check for missing icons
+            if (!isLoaded || !lucide?.icons || !lucide.icons[name]) {
+                // Return a generic placeholder if icon is missing but lib is loaded, or simple box if lib missing
+                return <span className={`inline-block w-5 h-5 bg-slate-700/50 rounded-sm ${className}`} />;
+            }
             
             try {
-                const svgElement = lucide.createElement(lucide.icons[iconName]);
-                if (className) svgElement.setAttribute('class', `${svgElement.getAttribute('class') || ''} ${className}`.trim());
-                Object.keys(props).forEach(key => svgElement.setAttribute(key.replace(/([a-z0-9])([A-Z])/g, '$1-$2').toLowerCase(), props[key]));
-                return <span dangerouslySetInnerHTML={{ __html: svgElement.outerHTML }} style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 0 }} />;
-            } catch (err) { return null; }
+                const svgHtml = lucide.icons[name].toSvg({
+                    class: className || '',
+                    ...props
+                });
+                return (
+                    <span 
+                        dangerouslySetInnerHTML={{ __html: svgHtml }} 
+                        style={{ display: 'inline-flex', alignItems: 'center', lineHeight: 0 }}
+                    />
+                );
+            } catch (err) {
+                console.error(`Icon error: ${name}`, err);
+                return <span className={`inline-block w-5 h-5 bg-red-500/20 rounded-sm ${className}`} />;
+            }
         };
 
         const Logo = () => (
-            <div className="flex items-center gap-3 select-none">
-                <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-gradient-to-tr from-indigo-500 to-violet-500 shadow-lg shadow-indigo-500/20">
-                    <Icon name="Shield" className="text-white w-4 h-4" />
+            <div className="flex items-center gap-2">
+                <div className="relative flex items-center justify-center w-8 h-8 rounded-xl bg-gradient-to-tr from-rose-500 to-orange-500 shadow-lg shadow-rose-500/20">
+                    <Icon name="Shield" className="text-white w-5 h-5 relative z-10" />
                 </div>
-                <span className="text-lg font-bold tracking-tight text-white">Raksha<span className="text-rose-400">X</span></span>
+                <span className="text-xl font-bold tracking-tight text-white">Raksha<span className="text-rose-500">X</span></span>
             </div>
         );
 
-        // --- SIREN AUDIO ENGINE ---
+        // --- AUDIO ENGINE (FEATURE 8) ---
         class SirenManager {
-            constructor() { this.audioCtx = null; this.oscillator = null; this.gainNode = null; this.lfo = null; this.lfoGain = null; }
+            constructor() {
+                this.audioCtx = null;
+                this.oscillator = null;
+                this.gainNode = null;
+                this.lfo = null;
+                this.lfoGain = null;
+            }
+
+            isActive() {
+                return !!this.oscillator;
+            }
+
             start() {
                 try {
-                    if (!this.audioCtx) this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                    if (this.audioCtx.state === 'suspended') this.audioCtx.resume();
-                    this.oscillator = this.audioCtx.createOscillator(); this.oscillator.type = 'sawtooth'; this.oscillator.frequency.value = 800;
-                    this.gainNode = this.audioCtx.createGain(); this.gainNode.gain.value = 0.5;
-                    this.lfo = this.audioCtx.createOscillator(); this.lfo.type = 'sine'; this.lfo.frequency.value = 2; 
-                    this.lfoGain = this.audioCtx.createGain(); this.lfoGain.gain.value = 400;
-                    this.lfo.connect(this.lfoGain); this.lfoGain.connect(this.oscillator.frequency);
-                    this.oscillator.connect(this.gainNode); this.gainNode.connect(this.audioCtx.destination);
-                    this.oscillator.start(); this.lfo.start();
-                } catch (e) { console.error("Audio Error:", e); }
+                    if (!this.audioCtx) {
+                        this.audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                    }
+                    if (this.audioCtx.state === 'suspended') {
+                        this.audioCtx.resume();
+                    }
+
+                    // Main sound source (Sawtooth for harshness)
+                    this.oscillator = this.audioCtx.createOscillator();
+                    this.oscillator.type = 'sawtooth';
+                    this.oscillator.frequency.value = 800; // Base frequency
+
+                    // Volume control
+                    this.gainNode = this.audioCtx.createGain();
+                    this.gainNode.gain.value = 0.5;
+
+                    // LFO for the "Wail" effect (Low Frequency Oscillator)
+                    this.lfo = this.audioCtx.createOscillator();
+                    this.lfo.type = 'sine';
+                    this.lfo.frequency.value = 2; // Speed of the wail (2 Hz)
+
+                    this.lfoGain = this.audioCtx.createGain();
+                    this.lfoGain.gain.value = 400; // Depth of the wail (+- 400 Hz)
+
+                    // Connect graph: LFO -> LFO Gain -> Oscillator Frequency
+                    this.lfo.connect(this.lfoGain);
+                    this.lfoGain.connect(this.oscillator.frequency);
+
+                    // Connect graph: Oscillator -> Volume -> Speakers
+                    this.oscillator.connect(this.gainNode);
+                    this.gainNode.connect(this.audioCtx.destination);
+
+                    // Start sound
+                    this.oscillator.start();
+                    this.lfo.start();
+                } catch (e) {
+                    console.error("Audio Context Error:", e);
+                }
             }
+
             stop() {
                 try {
-                    if (this.oscillator) { this.oscillator.stop(); this.oscillator.disconnect(); this.oscillator = null; }
-                    if (this.lfo) { this.lfo.stop(); this.lfo.disconnect(); this.lfo = null; }
-                } catch (e) {}
+                    if (this.oscillator) {
+                        this.oscillator.stop();
+                        this.oscillator.disconnect();
+                        this.oscillator = null;
+                    }
+                    if (this.lfo) {
+                        this.lfo.stop();
+                        this.lfo.disconnect();
+                        this.lfo = null;
+                    }
+                    if (this.gainNode) {
+                        this.gainNode.disconnect();
+                        this.gainNode = null;
+                    }
+                } catch (e) {
+                    console.error("Error stopping audio:", e);
+                }
             }
         }
 
@@ -264,225 +402,381 @@
 
         const ContactsView = ({ user, onBack }) => {
             const [contacts, setContacts] = useState([]);
+            const [loading, setLoading] = useState(true);
             const [isAdding, setIsAdding] = useState(false);
             const [newContact, setNewContact] = useState({ name: '', phone: '', relation: '' });
+            const [error, setError] = useState('');
 
             useEffect(() => {
                 if (!user) return;
-                const unsub = db.collection('artifacts').doc(appId).collection('users').doc(user.uid).collection('contacts').onSnapshot(snap => {
-                    setContacts(snap.docs.map(d => ({ id: d.id, ...d.data() })));
-                });
-                return () => unsub();
+                try {
+                    const contactsRef = db.collection('artifacts').doc(appId).collection('users').doc(user.uid).collection('contacts');
+                    
+                    const unsubscribe = contactsRef.onSnapshot((snapshot) => {
+                        const loadedContacts = snapshot.docs.map(doc => ({
+                            id: doc.id,
+                            ...doc.data()
+                        }));
+                        setContacts(loadedContacts);
+                        setLoading(false);
+                    }, (err) => {
+                        console.error("Contacts Error:", err);
+                        setLoading(false);
+                    });
+                    return () => unsubscribe();
+                } catch (e) {
+                    console.error("DB Setup Error:", e);
+                    setLoading(false);
+                }
             }, [user]);
 
-            const handleAdd = async (e) => {
+            const handleAddContact = async (e) => {
                 e.preventDefault();
-                if (!newContact.name || !newContact.phone) return;
-                await db.collection('artifacts').doc(appId).collection('users').doc(user.uid).collection('contacts').add({
-                    name: newContact.name, phone: newContact.phone, relation: newContact.relation || 'Contact', createdAt: new Date().toISOString()
-                });
-                setNewContact({ name: '', phone: '', relation: '' }); setIsAdding(false);
+                setError('');
+                if (!user) {
+                    setError('You must be logged in to add contacts.');
+                    return;
+                }
+                if (!newContact.name || !newContact.phone) {
+                    setError('Name and Phone are required');
+                    return;
+                }
+
+                try {
+                    await db.collection('artifacts').doc(appId).collection('users').doc(user.uid).collection('contacts').add({
+                        name: newContact.name,
+                        phone: newContact.phone,
+                        relation: newContact.relation || 'Friend',
+                        createdAt: new Date().toISOString()
+                    });
+                    setNewContact({ name: '', phone: '', relation: '' });
+                    setIsAdding(false);
+                } catch (err) {
+                    console.error("Error adding contact", err);
+                    setError('Failed to save. check connection.');
+                }
             };
 
             const handleDelete = async (id) => {
-                if (confirm("Remove contact?")) await db.collection('artifacts').doc(appId).collection('users').doc(user.uid).collection('contacts').doc(id).delete();
+                if (!confirm("Remove this guardian contact?")) return;
+                if (!user) return;
+                try {
+                    await db.collection('artifacts').doc(appId).collection('users').doc(user.uid).collection('contacts').doc(id).delete();
+                } catch (err) {
+                    console.error("Error deleting contact", err);
+                }
             };
 
             return (
-                <div className="h-full flex flex-col px-6 pb-24 overflow-y-auto animate-in">
-                    <div className="flex items-center justify-between py-6">
-                        <button onClick={onBack} className="p-2 rounded-full glass-card text-slate-300"><Icon name="ArrowLeft" className="w-5 h-5" /></button>
-                        <h2 className="text-lg font-semibold text-white tracking-wide">Trusted Guardians</h2>
-                        <button onClick={() => setIsAdding(!isAdding)} className={`p-2 rounded-full glass-card ${isAdding ? 'text-rose-400' : 'text-emerald-400'}`}><Icon name={isAdding ? "X" : "Plus"} className="w-5 h-5" /></button>
+                <div className="h-full flex flex-col px-5 pb-24 overflow-y-auto">
+                    <div className="flex items-center gap-4 py-5 mb-2 sticky top-0 bg-[#020617]/90 backdrop-blur-md z-10 border-b border-white/5">
+                        <button onClick={onBack} className="p-2 bg-slate-800 rounded-full active:scale-90 transition-transform">
+                            <Icon name="ArrowLeft" className="w-5 h-5 text-white" />
+                        </button>
+                        <h2 className="text-xl font-bold text-white">Guardian Contacts</h2>
+                        <button 
+                            onClick={() => setIsAdding(!isAdding)} 
+                            className={`ml-auto p-2 rounded-full transition-colors ${isAdding ? 'bg-rose-500/20 text-rose-400' : 'bg-emerald-500/20 text-emerald-400'}`}
+                        >
+                            <Icon name={isAdding ? "X" : "Plus"} className="w-5 h-5" />
+                        </button>
                     </div>
 
                     {isAdding && (
-                        <div className="mb-6 glass-panel p-5 rounded-2xl animate-in border-l-4 border-emerald-500">
-                            <h3 className="text-sm font-bold text-white mb-4">New Guardian Details</h3>
-                            <form onSubmit={handleAdd} className="space-y-3">
-                                <input type="text" placeholder="Name" className="w-full bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-3 text-sm text-white focus:border-emerald-500 outline-none" value={newContact.name} onChange={e => setNewContact({...newContact, name: e.target.value})} />
-                                <input type="tel" placeholder="Phone" className="w-full bg-slate-900/50 border border-slate-700/50 rounded-xl px-4 py-3 text-sm text-white focus:border-emerald-500 outline-none" value={newContact.phone} onChange={e => setNewContact({...newContact, phone: e.target.value})} />
-                                <button type="submit" className="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3 rounded-xl text-sm transition-colors">Add to Safety Circle</button>
+                        <div className="mb-6 glass-panel p-4 rounded-xl animate-in fade-in slide-in-from-top-5">
+                            <h3 className="text-sm font-bold text-white mb-3">New Guardian</h3>
+                            <form onSubmit={handleAddContact} className="space-y-3">
+                                <input 
+                                    type="text" 
+                                    placeholder="Name" 
+                                    className="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-rose-500"
+                                    value={newContact.name}
+                                    onChange={e => setNewContact({...newContact, name: e.target.value})}
+                                />
+                                <input 
+                                    type="tel" 
+                                    placeholder="Phone Number" 
+                                    className="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-rose-500"
+                                    value={newContact.phone}
+                                    onChange={e => setNewContact({...newContact, phone: e.target.value})}
+                                />
+                                <input 
+                                    type="text" 
+                                    placeholder="Relationship (e.g. Mom)" 
+                                    className="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-rose-500"
+                                    value={newContact.relation}
+                                    onChange={e => setNewContact({...newContact, relation: e.target.value})}
+                                />
+                                {error && <p className="text-xs text-rose-500 font-medium">{error}</p>}
+                                <button type="submit" className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-bold py-2.5 rounded-lg text-sm shadow-lg shadow-emerald-500/20">
+                                    Save Contact
+                                </button>
                             </form>
                         </div>
                     )}
 
-                    <div className="space-y-3">
-                        {contacts.length === 0 ? (
-                            <div className="text-center py-20 opacity-50">
-                                <Icon name="Shield" className="w-12 h-12 mx-auto mb-3 text-slate-500" />
-                                <p className="text-sm text-slate-400">No guardians added yet.<br/>Your safety circle is empty.</p>
-                            </div>
-                        ) : (
-                            contacts.map(c => (
-                                <div key={c.id} className="glass-card p-4 rounded-2xl flex items-center justify-between group">
-                                    <div className="flex items-center gap-4">
-                                        <div className="w-10 h-10 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center font-bold border border-indigo-500/20">
-                                            {c.name.charAt(0).toUpperCase()}
+                    {loading ? (
+                        <div className="flex justify-center py-10"><div className="spinner w-6 h-6 border-2"></div></div>
+                    ) : contacts.length === 0 ? (
+                        <div className="text-center py-12 px-4 opacity-50 flex flex-col items-center">
+                            <Icon name="Users" className="w-12 h-12 mb-3 text-slate-500" />
+                            <p className="text-slate-400">No contacts added yet.</p>
+                            <p className="text-xs text-slate-600 mt-1">Add trusted people to notify in emergencies.</p>
+                        </div>
+                    ) : (
+                        <div className="space-y-3">
+                            {contacts.map(contact => (
+                                <div key={contact.id} className="glass-panel p-4 rounded-xl flex items-center justify-between group">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold border border-slate-700">
+                                            {(contact.name || '?').charAt(0).toUpperCase()}
                                         </div>
                                         <div>
-                                            <p className="text-white font-medium text-sm">{c.name}</p>
-                                            <p className="text-xs text-slate-400">{c.phone}</p>
+                                            <p className="text-white font-medium text-sm">{contact.name}</p>
+                                            <div className="flex items-center gap-2 text-xs text-slate-400">
+                                                <span className="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">{contact.relation}</span>
+                                                <span>{contact.phone}</span>
+                                            </div>
                                         </div>
                                     </div>
-                                    <button onClick={() => handleDelete(c.id)} className="p-2 text-slate-600 hover:text-rose-400 transition-colors"><Icon name="Trash2" className="w-4 h-4" /></button>
+                                    <button 
+                                        onClick={() => handleDelete(contact.id)}
+                                        className="p-2 text-slate-500 hover:text-rose-500 transition-colors"
+                                    >
+                                        <Icon name="Trash2" className="w-4 h-4" />
+                                    </button>
                                 </div>
-                            ))
-                        )}
-                    </div>
+                            ))}
+                        </div>
+                    )}
                 </div>
             );
         };
 
         const HomeView = ({ user, setView }) => {
-            const [activeSOS, setActiveSOS] = useState(false);
-            const [sirenOn, setSirenOn] = useState(false);
-            const [timer, setTimer] = useState(5);
+            const [isSOSActive, setIsSOSActive] = useState(false);
+            const [isSirenActive, setIsSirenActive] = useState(false); // FEATURE 8
+            const [countdown, setCountdown] = useState(5);
+            const [guardianCount, setGuardianCount] = useState(0);
+            const timerRef = useRef(null);
+            
+            // Ref for the Siren Manager
             const sirenRef = useRef(null);
-            const intervalRef = useRef(null);
 
-            useEffect(() => { sirenRef.current = new SirenManager(); return () => sirenRef.current.stop(); }, []);
+            useEffect(() => {
+                sirenRef.current = new SirenManager();
+                return () => {
+                    // Cleanup siren on unmount
+                    if (sirenRef.current) sirenRef.current.stop();
+                };
+            }, []);
 
             const toggleSiren = () => {
-                if (sirenOn) { sirenRef.current.stop(); setSirenOn(false); }
-                else { sirenRef.current.start(); setSirenOn(true); }
+                if (!sirenRef.current) return;
+
+                if (isSirenActive) {
+                    sirenRef.current.stop();
+                    setIsSirenActive(false);
+                } else {
+                    sirenRef.current.start();
+                    setIsSirenActive(true);
+                }
             };
 
-            const toggleSOS = () => {
-                if (activeSOS) {
-                    setActiveSOS(false);
-                    clearInterval(intervalRef.current);
-                    setTimer(5);
+            useEffect(() => {
+                if (!user) return;
+                try {
+                    const contactsRef = db.collection('artifacts').doc(appId).collection('users').doc(user.uid).collection('contacts');
+                    const unsubscribe = contactsRef.onSnapshot(snap => {
+                        setGuardianCount(snap.docs.length);
+                    }, () => setGuardianCount(0));
+                    return () => unsubscribe();
+                } catch(e) { console.error(e); }
+            }, [user]);
+
+            useEffect(() => {
+                return () => {
+                    if (timerRef.current) clearInterval(timerRef.current);
+                };
+            }, []);
+
+            const handleSOSClick = () => {
+                if (isSOSActive) {
+                    setIsSOSActive(false);
+                    clearInterval(timerRef.current);
+                    setCountdown(5);
                 } else {
-                    setActiveSOS(true);
-                    intervalRef.current = setInterval(() => {
-                        setTimer(t => {
-                            if (t <= 1) {
-                                clearInterval(intervalRef.current);
-                                alert("SOS SIGNAL SENT to Guardians!");
-                                setActiveSOS(false);
+                    setIsSOSActive(true);
+                    timerRef.current = setInterval(() => {
+                        setCountdown(prev => {
+                            if (prev <= 1) {
+                                clearInterval(timerRef.current);
+                                alert(`SOS ALERT SENT!\nNotifying ${guardianCount} Guardian(s) with your live location.`);
+                                setIsSOSActive(false);
                                 return 5;
                             }
-                            return t - 1;
+                            return prev - 1;
                         });
                     }, 1000);
                 }
             };
 
             return (
-                <div className="flex flex-col h-full px-6 pb-28 animate-in overflow-y-auto no-scrollbar">
-                    {/* Header */}
-                    <div className="flex justify-between items-center mt-6 mb-8">
+                <div className="flex flex-col h-full px-5 pb-24 overflow-y-auto">
+                    <div className="mt-4 mb-8 flex justify-between items-start">
                         <div>
-                            <h1 className="text-xl font-bold text-white tracking-wide">Hi, {user?.displayName || 'Guardian'}</h1>
-                            <div className="flex items-center gap-2 mt-1">
-                                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
-                                <p className="text-xs text-emerald-400 font-medium tracking-wider">SECURE CONNECTION</p>
+                            <h1 className="text-2xl font-bold text-white mb-1">Hello, {user?.displayName ? user.displayName.split(' ')[0] : 'Guardian'}</h1>
+                            <div className="flex items-center gap-2 text-emerald-400 bg-emerald-500/10 px-3 py-1.5 rounded-full w-fit border border-emerald-500/20">
+                                <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse"></span>
+                                <span className="text-xs font-semibold tracking-wide">SYSTEM ACTIVE</span>
                             </div>
                         </div>
-                        <div className="p-2.5 rounded-full glass-card border border-white/5">
-                            <Icon name="ShieldCheck" className="w-5 h-5 text-indigo-400" />
+                        <div className="p-3 glass-panel rounded-full text-emerald-400 shadow-lg shadow-emerald-900/20 border border-emerald-500/20">
+                            <Icon name="ShieldCheck" className="w-6 h-6" />
                         </div>
                     </div>
 
-                    {/* SOS Section */}
-                    <div className="flex-1 flex flex-col items-center justify-center min-h-[340px] relative">
-                        {/* Background Rings */}
-                        <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-20">
-                            <div className={`w-64 h-64 rounded-full border border-rose-500/30 transition-all duration-1000 ${activeSOS ? 'scale-110 opacity-100' : 'scale-100'}`}></div>
-                            <div className={`absolute w-80 h-80 rounded-full border border-rose-500/10 transition-all duration-1000 delay-100 ${activeSOS ? 'scale-110 opacity-100' : 'scale-100'}`}></div>
-                        </div>
-
+                    <div className="flex-1 flex flex-col items-center justify-center min-h-[300px]">
                         <button 
-                            onClick={toggleSOS}
-                            className={`relative w-48 h-48 rounded-full flex flex-col items-center justify-center transition-all duration-500 z-10 shadow-2xl
-                                ${activeSOS 
-                                    ? 'bg-rose-500 text-white pulse-urgent shadow-[0_0_60px_rgba(244,63,94,0.5)]' 
-                                    : 'glass-card hover:bg-slate-800/50 border-white/10 pulse-soft shadow-[0_0_40px_rgba(0,0,0,0.3)]'
-                                }`}
+                            onClick={handleSOSClick}
+                            className={`relative w-48 h-48 rounded-full flex items-center justify-center transition-all duration-300 ${isSOSActive ? 'bg-white scale-110' : 'bg-gradient-to-b from-rose-500 to-rose-600 shadow-2xl shadow-rose-500/40'}`}
                         >
-                            {activeSOS ? (
-                                <span className="text-6xl font-black font-mono tracking-tighter">{timer}</span>
-                            ) : (
-                                <>
-                                    <Icon name="Fingerprint" className="w-16 h-16 text-rose-400 mb-3 opacity-90" strokeWidth={1} />
-                                    <span className="text-xs font-bold text-rose-400 tracking-[0.2em] uppercase">Hold SOS</span>
-                                </>
-                            )}
+                            {isSOSActive && <div className="absolute inset-0 rounded-full pulse-ring bg-rose-500/20"></div>}
+                            <div className="flex flex-col items-center z-10">
+                                {isSOSActive ? (
+                                    <span className="text-6xl font-black text-rose-600 font-mono">{countdown}</span>
+                                ) : (
+                                    <>
+                                        <Icon name="Bell" className="w-16 h-16 text-white mb-2" strokeWidth={1.5} />
+                                        <span className="text-xl font-bold text-white tracking-widest">SOS</span>
+                                    </>
+                                )}
+                            </div>
                         </button>
-                        <p className="mt-8 text-xs text-slate-500 uppercase tracking-widest font-medium">
-                            {activeSOS ? "Tap to Cancel" : "Emergency Beacon"}
+                        <p className="mt-8 text-slate-400 text-sm font-medium text-center max-w-[200px]">
+                            {isSOSActive ? "Tap again to CANCEL" : `Tap immediately to alert ${guardianCount > 0 ? guardianCount + ' Guardians' : 'Emergency Services'}`}
                         </p>
                     </div>
 
-                    {/* Grid Actions */}
-                    <div className="grid grid-cols-2 gap-3 mt-6">
-                        <button onClick={() => setView('contacts')} className="glass-card p-4 rounded-2xl flex flex-col items-center gap-3 active:scale-95 group">
-                            <div className="p-3 rounded-full bg-indigo-500/10 text-indigo-400 group-hover:bg-indigo-500/20 transition-colors">
+                    {/* FEATURE 6 & 8: Updated Grid with Helplines and Siren */}
+                    <div className="grid grid-cols-2 gap-3 mt-auto">
+                        <button onClick={() => setView('contacts')} className="glass-panel p-4 rounded-2xl flex flex-col items-center justify-center gap-2 active:scale-95 transition-transform border-l-4 border-l-purple-500">
+                            <div className="p-3 bg-purple-500/20 rounded-full text-purple-400">
                                 <Icon name="Users" className="w-6 h-6" />
                             </div>
-                            <span className="text-xs font-semibold text-slate-300">Guardians</span>
+                            <span className="text-sm font-semibold text-slate-200">Guardians</span>
                         </button>
-
-                        <button onClick={() => setView('helplines')} className="glass-card p-4 rounded-2xl flex flex-col items-center gap-3 active:scale-95 group">
-                            <div className="p-3 rounded-full bg-emerald-500/10 text-emerald-400 group-hover:bg-emerald-500/20 transition-colors">
+                        
+                        <button onClick={() => setView('helplines')} className="glass-panel p-4 rounded-2xl flex flex-col items-center justify-center gap-2 active:scale-95 transition-transform border-l-4 border-l-rose-500">
+                            <div className="p-3 bg-rose-500/20 rounded-full text-rose-400">
                                 <Icon name="Phone" className="w-6 h-6" />
                             </div>
-                            <span className="text-xs font-semibold text-slate-300">Helplines</span>
+                            <span className="text-sm font-semibold text-slate-200">Helplines</span>
                         </button>
 
-                        <button onClick={toggleSiren} className={`glass-card col-span-2 p-4 rounded-2xl flex items-center justify-between px-6 active:scale-95 transition-all ${sirenOn ? 'bg-amber-500/20 border-amber-500/30' : ''}`}>
-                            <div className="flex items-center gap-4">
-                                <div className={`p-3 rounded-full ${sirenOn ? 'bg-amber-500 text-white animate-pulse' : 'bg-amber-500/10 text-amber-400'}`}>
-                                    <Icon name={sirenOn ? "Volume2" : "Megaphone"} className="w-6 h-6" />
-                                </div>
-                                <div className="text-left">
-                                    <span className={`block text-sm font-bold ${sirenOn ? 'text-white' : 'text-slate-200'}`}>Loud Siren</span>
-                                    <span className="text-[10px] text-slate-400 uppercase tracking-wide">Disorient Attacker</span>
-                                </div>
+                        <button onClick={() => setView('protocol')} className="glass-panel p-4 rounded-2xl flex flex-col items-center justify-center gap-2 active:scale-95 transition-transform border-l-4 border-l-amber-500">
+                            <div className="p-3 bg-amber-500/20 rounded-full text-amber-400">
+                                <Icon name="BookOpen" className="w-6 h-6" />
                             </div>
-                            <div className={`w-3 h-3 rounded-full ${sirenOn ? 'bg-amber-500' : 'bg-slate-700'}`}></div>
+                            <span className="text-sm font-semibold text-slate-200">Protocols</span>
+                        </button>
+                        
+                        <button onClick={() => setView('map')} className="glass-panel p-4 rounded-2xl flex flex-col items-center justify-center gap-2 active:scale-95 transition-transform border-l-4 border-l-emerald-500">
+                            <div className="p-3 bg-emerald-500/20 rounded-full text-emerald-400">
+                                <Icon name="MapPin" className="w-6 h-6" />
+                            </div>
+                            <span className="text-sm font-semibold text-slate-200">Safe Map</span>
+                        </button>
+
+                        {/* FEATURE 8: Siren Button */}
+                        <button 
+                            onClick={toggleSiren}
+                            className={`glass-panel p-4 rounded-2xl flex flex-col items-center justify-center gap-2 active:scale-95 transition-all border-l-4 col-span-2 ${isSirenActive ? 'bg-orange-500/20 border-l-orange-500 animate-pulse ring-2 ring-orange-500/50' : 'border-l-orange-500'}`}
+                        >
+                            <div className={`p-3 rounded-full ${isSirenActive ? 'bg-orange-500 text-white' : 'bg-orange-500/20 text-orange-400'}`}>
+                                <Icon name="Megaphone" className="w-6 h-6" />
+                            </div>
+                            <span className={`text-sm font-semibold ${isSirenActive ? 'text-white' : 'text-slate-200'}`}>
+                                {isSirenActive ? 'STOP SIREN' : 'Loud Siren'}
+                            </span>
                         </button>
                     </div>
 
-                    {/* Rights Card */}
-                    <button onClick={() => setView('rights')} className="mt-3 w-full glass-card p-5 rounded-2xl flex items-center justify-between active:scale-95 border-l-4 border-l-rose-400">
-                        <div className="flex items-center gap-4">
-                            <div className="p-2 bg-rose-500/10 rounded-lg text-rose-400"><Icon name="BookOpen" className="w-5 h-5" /></div>
-                            <div className="text-left">
-                                <span className="block text-sm font-bold text-white">Know Your Rights</span>
-                                <span className="text-xs text-slate-400">Legal awareness story cards</span>
+                    {/* FEATURE 7: Know Your Rights Button */}
+                    <div className="mt-3">
+                         <button onClick={() => setView('rights')} className="w-full glass-panel p-4 rounded-2xl flex items-center justify-between active:scale-95 transition-transform border-l-4 border-l-indigo-500">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-indigo-500/20 rounded-full text-indigo-400">
+                                    <Icon name="Scale" className="w-5 h-5" />
+                                </div>
+                                <span className="text-sm font-semibold text-slate-200">Know Your Rights</span>
                             </div>
-                        </div>
-                        <Icon name="ChevronRight" className="w-4 h-4 text-slate-600" />
-                    </button>
+                            <Icon name="ChevronRight" className="w-5 h-5 text-slate-600" />
+                        </button>
+                    </div>
                 </div>
             );
         };
 
-        const RightsView = ({ onBack }) => {
-            const rights = [
-                { id: 1, title: "Zero FIR", desc: "File an FIR at any police station, regardless of location.", icon: "FileText", color: "indigo" },
-                { id: 2, title: "No Arrest at Night", desc: "Women cannot be arrested after sunset & before sunrise without a magistrate.", icon: "Moon", color: "violet" },
-                { id: 3, title: "Identity Privacy", desc: "Your identity must be kept confidential by police and media in sensitive cases.", icon: "EyeOff", color: "emerald" },
-                { id: 4, title: "Free Legal Aid", desc: "You are entitled to free legal assistance for filing complaints.", icon: "Scale", color: "amber" }
+        const MapView = ({ onBack }) => (
+            <div className="h-full flex flex-col bg-slate-900">
+                <div className="p-5 flex items-center gap-4 glass-panel z-10">
+                    <button onClick={onBack} className="p-2 bg-slate-800 rounded-full hover:bg-slate-700 transition-colors">
+                        <Icon name="ArrowLeft" className="w-5 h-5 text-white" />
+                    </button>
+                    <h2 className="text-lg font-bold text-white">Live Tracking</h2>
+                </div>
+                <div className="flex-1 flex items-center justify-center bg-slate-800 relative overflow-hidden">
+                    <div className="absolute inset-0 opacity-20" style={{backgroundImage: 'radial-gradient(circle at 50% 50%, #334155 1px, transparent 1px)', backgroundSize: '20px 20px'}}></div>
+                    <div className="text-center p-8">
+                        <Icon name="Map" className="w-16 h-16 text-slate-600 mx-auto mb-4" />
+                        <p className="text-slate-400 font-medium">Map Module Unavailable</p>
+                        <p className="text-xs text-slate-600 mt-2">API Key Required for G-Maps</p>
+                    </div>
+                </div>
+            </div>
+        );
+
+        // FEATURE 6: Helplines View
+        const HelplinesView = ({ onBack }) => {
+            const helplines = [
+                { name: "Emergency (All-in-one)", number: "112", icon: "AlertTriangle", color: "text-rose-400", bg: "bg-rose-500/20", border: "border-rose-500" },
+                { name: "Police", number: "100", icon: "Shield", color: "text-blue-400", bg: "bg-blue-500/20", border: "border-blue-500" },
+                { name: "Ambulance", number: "102", icon: "Activity", color: "text-emerald-400", bg: "bg-emerald-500/20", border: "border-emerald-500" },
+                { name: "Women's Helpline", number: "1091", icon: "Heart", color: "text-pink-400", bg: "bg-pink-500/20", border: "border-pink-500" },
+                { name: "Fire Brigade", number: "101", icon: "Flame", color: "text-orange-400", bg: "bg-orange-500/20", border: "border-orange-500" },
+                { name: "Cyber Crime", number: "1930", icon: "Lock", color: "text-cyan-400", bg: "bg-cyan-500/20", border: "border-cyan-500" },
+                { name: "Child Helpline", number: "1098", icon: "Smile", color: "text-yellow-400", bg: "bg-yellow-500/20", border: "border-yellow-500" },
+                { name: "Senior Citizen", number: "14567", icon: "User", color: "text-indigo-400", bg: "bg-indigo-500/20", border: "border-indigo-500" },
             ];
 
             return (
-                <div className="h-full flex flex-col px-6 pb-24 overflow-y-auto animate-in">
-                    <div className="flex items-center gap-4 py-6">
-                        <button onClick={onBack} className="p-2 rounded-full glass-card text-slate-300"><Icon name="ArrowLeft" className="w-5 h-5" /></button>
-                        <h2 className="text-lg font-semibold text-white">Your Rights</h2>
+                <div className="h-full flex flex-col px-5 pb-24 overflow-y-auto">
+                    <div className="flex items-center gap-4 py-5 mb-2 sticky top-0 bg-[#020617]/90 backdrop-blur-md z-10 border-b border-white/5">
+                        <button onClick={onBack} className="p-2 bg-slate-800 rounded-full active:scale-90 transition-transform">
+                            <Icon name="ArrowLeft" className="w-5 h-5 text-white" />
+                        </button>
+                        <h2 className="text-xl font-bold text-white">Emergency Numbers</h2>
                     </div>
-                    
-                    <div className="grid gap-4">
-                        {rights.map(r => (
-                            <div key={r.id} className="glass-card p-5 rounded-2xl border-l-2 border-slate-700 hover:border-l-4 transition-all">
-                                <div className="flex items-center gap-3 mb-2">
-                                    <Icon name={r.icon} className={`w-5 h-5 text-${r.color}-400`} />
-                                    <h3 className="font-bold text-white text-base">{r.title}</h3>
+
+                    <div className="grid gap-3">
+                        {helplines.map((item, idx) => (
+                            <div key={idx} className="glass-panel p-4 rounded-xl flex items-center justify-between group hover:bg-slate-800/50 transition-colors">
+                                <div className="flex items-center gap-4">
+                                    <div className={`w-12 h-12 rounded-full flex items-center justify-center ${item.bg} ${item.color}`}>
+                                        <Icon name={item.icon} className="w-6 h-6" />
+                                    </div>
+                                    <div>
+                                        <h3 className="text-slate-200 font-semibold">{item.name}</h3>
+                                        <p className="text-2xl font-bold text-white tracking-wider font-mono">{item.number}</p>
+                                    </div>
                                 </div>
-                                <p className="text-sm text-slate-400 leading-relaxed pl-8">{r.desc}</p>
+                                <a 
+                                    href={`tel:${item.number}`}
+                                    className={`p-3 rounded-full ${item.bg} ${item.color} active:scale-95 transition-transform`}
+                                >
+                                    <Icon name="Phone" className="w-5 h-5" />
+                                </a>
                             </div>
                         ))}
                     </div>
@@ -490,116 +784,249 @@
             );
         };
 
-        // --- PLACEHOLDER VIEWS ---
-        const HelplinesView = ({ onBack }) => (
-            <div className="h-full px-6 pt-6 animate-in">
-                <div className="flex items-center gap-4 mb-6">
-                    <button onClick={onBack} className="p-2 rounded-full glass-card text-slate-300"><Icon name="ArrowLeft" className="w-5 h-5" /></button>
-                    <h2 className="text-lg font-semibold text-white">Emergency Numbers</h2>
-                </div>
-                <div className="space-y-3">
-                    {[
-                        {n:"Police", p:"100", c:"text-blue-400", i:"Shield"}, 
-                        {n:"Ambulance", p:"102", c:"text-emerald-400", i:"Activity"},
-                        {n:"Women Helpline", p:"1091", c:"text-rose-400", i:"Heart"}
-                    ].map((h, i) => (
-                        <div key={i} className="glass-card p-4 rounded-2xl flex items-center justify-between">
-                            <div className="flex items-center gap-4">
-                                <div className={`p-2.5 rounded-full bg-slate-800 ${h.c}`}><Icon name={h.i} className="w-5 h-5" /></div>
-                                <div><p className="text-white font-medium">{h.n}</p><p className="text-lg font-bold text-slate-300 tracking-wider">{h.p}</p></div>
+        // FEATURE 7: Rights View
+        const RightsView = ({ onBack }) => {
+            const [selectedRight, setSelectedRight] = useState(null);
+
+            const rights = [
+                { id: 1, title: "Right to Zero FIR", icon: "FileText", desc: "You can file a First Information Report (FIR) at any police station irrespective of the location of the incident. The police cannot refuse to register it." },
+                { id: 2, title: "No Arrest After Sunset", icon: "Moon", desc: "Under Section 46 of CrPC, women cannot be arrested after sunset and before sunrise, except in exceptional circumstances with a magistrate's order." },
+                { id: 3, title: "Right to Privacy", icon: "EyeOff", desc: "Under Section 228A of IPC, the identity of a rape victim must be kept confidential. Police and media cannot disclose your name or photo." },
+                { id: 4, title: "Right to Free Legal Aid", icon: "Scale", desc: "Female victims of violence (rape, domestic abuse, etc.) have the right to get free legal assistance from the Legal Services Authority." },
+                { id: 5, title: "Virtual Complaints", icon: "Mail", desc: "You have the right to file a complaint via email or registered post if you cannot physically visit a police station." },
+                { id: 6, title: "No Harassment at Work", icon: "Briefcase", desc: "The POSH Act 2013 mandates that every workplace with 10+ employees must have an Internal Complaints Committee (ICC) for sexual harassment." },
+            ];
+
+            return (
+                <div className="h-full flex flex-col px-5 pb-24 overflow-y-auto">
+                    <div className="flex items-center gap-4 py-5 mb-2 sticky top-0 bg-[#020617]/90 backdrop-blur-md z-10 border-b border-white/5">
+                        <button onClick={onBack} className="p-2 bg-slate-800 rounded-full active:scale-90 transition-transform">
+                            <Icon name="ArrowLeft" className="w-5 h-5 text-white" />
+                        </button>
+                        <h2 className="text-xl font-bold text-white">Women's Rights</h2>
+                    </div>
+
+                    <div className="space-y-3">
+                        {rights.map(right => (
+                            <div key={right.id} className={`glass-panel rounded-2xl overflow-hidden transition-all duration-300 ${selectedRight === right.id ? 'bg-slate-800/80 ring-1 ring-indigo-500/50' : ''}`}>
+                                <button 
+                                    onClick={() => setSelectedRight(selectedRight === right.id ? null : right.id)}
+                                    className="w-full p-4 flex items-center justify-between text-left hover:bg-white/5 transition-colors"
+                                >
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-full bg-indigo-500/20 text-indigo-400 flex items-center justify-center">
+                                            <Icon name={right.icon} className="w-5 h-5" />
+                                        </div>
+                                        <span className="font-semibold text-slate-200 text-sm">{right.title}</span>
+                                    </div>
+                                    <Icon name={selectedRight === right.id ? "ChevronUp" : "ChevronDown"} className="w-5 h-5 text-slate-500" />
+                                </button>
+                                {selectedRight === right.id && (
+                                    <div className="px-4 pb-4 pt-0 animate-in fade-in">
+                                        <div className="h-px w-full bg-slate-700/50 mb-3"></div>
+                                        <p className="text-sm text-slate-400 leading-relaxed">{right.desc}</p>
+                                    </div>
+                                )}
                             </div>
-                            <a href={`tel:${h.p}`} className="p-3 rounded-full bg-slate-800 text-white active:scale-95"><Icon name="Phone" className="w-5 h-5" /></a>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        };
 
-        const MapView = ({ onBack }) => (
-            <div className="h-full flex flex-col bg-[#020617] animate-in">
-                <div className="p-6 flex items-center gap-4 z-10">
-                    <button onClick={onBack} className="p-2 rounded-full glass-card text-slate-300"><Icon name="ArrowLeft" className="w-5 h-5" /></button>
-                    <h2 className="text-lg font-semibold text-white">Safe Map</h2>
-                </div>
-                <div className="flex-1 flex flex-col items-center justify-center opacity-50 relative overflow-hidden">
-                    <div className="absolute inset-0 tech-grid opacity-20"></div>
-                    <Icon name="Map" className="w-16 h-16 text-slate-600 mb-4" />
-                    <p className="text-slate-500 font-medium">Map Module Offline</p>
-                </div>
-            </div>
-        );
+        const ProtocolView = ({ onBack }) => {
+            const [selectedId, setSelectedId] = useState(null);
 
-        const ProtocolView = ({ onBack }) => (
-            <div className="h-full px-6 pt-6 animate-in">
-                <div className="flex items-center gap-4 mb-6">
-                    <button onClick={onBack} className="p-2 rounded-full glass-card text-slate-300"><Icon name="ArrowLeft" className="w-5 h-5" /></button>
-                    <h2 className="text-lg font-semibold text-white">Safety Protocols</h2>
+            const colorMap = {
+                emerald: { bg: 'bg-emerald-500/20', text: 'text-emerald-400', border: 'border-emerald-500' },
+                orange: { bg: 'bg-orange-500/20', text: 'text-orange-400', border: 'border-orange-500' },
+                rose: { bg: 'bg-rose-500/20', text: 'text-rose-400', border: 'border-rose-500' },
+                amber: { bg: 'bg-amber-500/20', text: 'text-amber-400', border: 'border-amber-500' },
+                red: { bg: 'bg-red-500/20', text: 'text-red-400', border: 'border-red-500' },
+            };
+
+            const protocols = [
+                { id: 'general', title: 'General Safety', icon: 'Shield', color: 'emerald', steps: ['Stay aware of surroundings', 'Keep emergency contacts ready', 'Trust your instincts', 'Share location with family'] },
+                { id: 'harassment', title: 'Harassment', icon: 'AlertTriangle', color: 'orange', steps: ['Move to a crowded area', 'Call 100 or Emergency SOS', 'Do not engage the harasser', 'Record evidence if safe'] },
+                { id: 'medical', title: 'Medical Emergency', icon: 'Heart', color: 'rose', steps: ['Check for breathing/pulse', 'Call Ambulance immediately', 'Perform CPR if trained', 'Do not move patient unless necessary'] }
+            ];
+
+            return (
+                <div className="h-full flex flex-col px-5 pb-24 overflow-y-auto">
+                     <div className="flex items-center gap-4 py-5 mb-2 sticky top-0 bg-[#020617]/90 backdrop-blur-md z-10 border-b border-white/5">
+                        <button onClick={onBack} className="p-2 bg-slate-800 rounded-full active:scale-90 transition-transform"><Icon name="ArrowLeft" className="w-5 h-5 text-white" /></button>
+                        <h2 className="text-xl font-bold text-white">Safety Protocols</h2>
+                    </div>
+
+                    <div className="grid gap-3">
+                        {protocols.map(p => {
+                            const colors = colorMap[p.color];
+                            return (
+                                <div key={p.id} className={`glass-panel rounded-2xl overflow-hidden transition-all duration-300 ${selectedId === p.id ? 'ring-1 ring-white/20' : ''}`}>
+                                    <button 
+                                        onClick={() => setSelectedId(selectedId === p.id ? null : p.id)}
+                                        className="w-full p-4 flex items-center justify-between text-left hover:bg-white/5 transition-colors"
+                                    >
+                                        <div className="flex items-center gap-3">
+                                            <div className={`w-10 h-10 rounded-full flex items-center justify-center ${colors.bg} ${colors.text}`}>
+                                                <Icon name={p.icon} className="w-5 h-5" />
+                                            </div>
+                                            <span className="font-semibold text-slate-200">{p.title}</span>
+                                        </div>
+                                        <Icon name={selectedId === p.id ? "ChevronUp" : "ChevronDown"} className="w-5 h-5 text-slate-500" />
+                                    </button>
+                                    {selectedId === p.id && (
+                                        <div className="px-4 pb-4 pt-0 animate-in fade-in">
+                                            <div className="h-px w-full bg-slate-700/50 mb-3"></div>
+                                            <ul className="space-y-3">
+                                                {p.steps.map((step, idx) => (
+                                                    <li key={idx} className="flex gap-3 text-sm text-slate-300 items-start">
+                                                        <span className={`text-xs font-bold px-1.5 py-0.5 rounded bg-slate-800 ${colors.text}`}>{idx + 1}</span>
+                                                        <span className="leading-relaxed">{step}</span>
+                                                    </li>
+                                                ))}
+                                            </ul>
+                                        </div>
+                                    )}
+                                </div>
+                            );
+                        })}
+                    </div>
                 </div>
-                <div className="glass-card p-5 rounded-2xl mb-3 border-l-4 border-emerald-500">
-                    <h3 className="font-bold text-white mb-1">General Awareness</h3>
-                    <p className="text-sm text-slate-400">Stay alert. Trust your instincts. Keep your phone charged.</p>
-                </div>
-                <div className="glass-card p-5 rounded-2xl mb-3 border-l-4 border-amber-500">
-                    <h3 className="font-bold text-white mb-1">Harassment</h3>
-                    <p className="text-sm text-slate-400">Move to a crowded area. Call 1091 immediately.</p>
-                </div>
-            </div>
-        );
+            );
+        };
 
         const LegalView = ({ onBack }) => (
-            <div className="h-full px-6 pt-6 animate-in">
-                <button onClick={onBack} className="p-2 rounded-full glass-card text-slate-300 mb-6"><Icon name="ArrowLeft" className="w-5 h-5" /></button>
+            <div className="h-full p-5 overflow-y-auto">
+                <button onClick={onBack} className="mb-6 p-2 bg-slate-800 rounded-full"><Icon name="ArrowLeft" className="w-5 h-5 text-white" /></button>
                 <h1 className="text-2xl font-bold text-white mb-4">Legal & Privacy</h1>
-                <div className="glass-card p-6 rounded-2xl text-slate-400 text-sm space-y-4">
-                    <p><strong>Version:</strong> 2.0 (Stealth Edition)</p>
-                    <p>This is a PWA designed for women's safety. Emergency features are simulated for demonstration.</p>
-                    <div className="h-px bg-white/5 my-4"></div>
-                    <p className="text-xs opacity-70">Data is stored locally on your device for privacy.</p>
+                <div className="text-slate-400 space-y-4 text-sm glass-panel p-4 rounded-xl">
+                    <p><strong>Disclaimer:</strong> This is a demonstration build of Raksha X. Emergency services features (SOS, Calling) are simulated.</p>
+                    <p>In a real emergency, always call your local emergency number (e.g., 911, 100, 112) directly from your phone's dialer.</p>
+                    <p className="text-xs text-slate-500 mt-4">Version 1.1.0 (Demo Build)</p>
                 </div>
             </div>
         );
+
+        const QuickExitButton = () => {
+            const handleExit = () => {
+                window.location.replace("https://www.google.com");
+            };
+
+            return (
+                <button 
+                    onClick={handleExit}
+                    className="absolute bottom-6 right-6 z-50 bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 px-4 rounded-full shadow-lg shadow-rose-900/50 flex items-center gap-2 transition-transform active:scale-95 border border-rose-400/30"
+                    aria-label="Quick Exit to Google"
+                >
+                    <Icon name="LogOut" className="w-5 h-5" />
+                    <span className="text-sm tracking-wide">EXIT</span>
+                </button>
+            );
+        };
 
         const App = () => {
             const [user, setUser] = useState(null);
             const [view, setView] = useState('home');
-            const [menuOpen, setMenuOpen] = useState(false);
-            const [ready, setReady] = useState(false);
+            const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+            const [isAuthReady, setIsAuthReady] = useState(false);
 
             useEffect(() => {
-                const unsub = auth.onAuthStateChanged(u => { setUser(u); setReady(true); });
-                setTimeout(() => { if (!ready) { setUser({displayName: 'Guest'}); setReady(true); } }, 2000);
-                return () => unsub();
-            }, [ready]);
+                let mounted = true;
 
-            if (!ready) return <div className="h-screen bg-[#020617] flex items-center justify-center"><div className="loader-ring"></div></div>;
+                // 1. Set up the listener
+                const unsubscribe = auth.onAuthStateChanged((u) => {
+                    if (mounted) {
+                        if (u) setUser(u);
+                        setIsAuthReady(true);
+                    }
+                });
+
+                // 2. Safety Timeout: If Firebase hangs or Mock fails to fire within 2.5s, force entry
+                // This prevents the "Blank Screen" / infinite loading spinner issue.
+                const safetyTimeout = setTimeout(() => {
+                    if (mounted && !isAuthReady) {
+                        console.warn("Auth initialization timed out. Forcing Demo Mode.");
+                        // Force a user into state so the app renders
+                        setUser({ uid: 'guest-fallback', displayName: 'Guest' });
+                        setIsAuthReady(true);
+                    }
+                }, 2500);
+
+                return () => {
+                    mounted = false;
+                    unsubscribe();
+                    clearTimeout(safetyTimeout);
+                };
+            }, [isAuthReady]);
+
+            const signOut = () => auth.signOut();
+            const installApp = () => alert("To install: Tap Share -> Add to Home Screen");
+
+            // Prevent blank screen during initial auth check
+            if (!isAuthReady) {
+                return (
+                    <div className="flex items-center justify-center h-screen bg-[#020617]">
+                        <div className="spinner"></div>
+                        <p className="absolute bottom-10 text-slate-500 text-xs animate-pulse">Establishing Secure Link...</p>
+                    </div>
+                );
+            }
 
             return (
-                <div className="h-screen w-full relative overflow-hidden bg-[#020617]">
-                    <div className="absolute inset-0 tech-grid opacity-10 pointer-events-none"></div>
-                    
-                    {/* Navigation */}
-                    <nav className="absolute top-0 left-0 right-0 h-20 px-6 flex items-center justify-between z-50">
+                <div className="h-screen w-full flex flex-col relative overflow-hidden bg-[#020617]">
+                    {/* Top Navigation */}
+                    <nav className="absolute top-0 left-0 right-0 h-16 px-5 flex items-center justify-between z-50 bg-[#020617]/80 backdrop-blur-sm border-b border-white/5">
                         <Logo />
                         <div className="relative">
-                            <button onClick={() => setMenuOpen(!menuOpen)} className="p-2.5 rounded-full glass-card text-slate-300 hover:text-white transition-colors">
-                                <Icon name={menuOpen ? "X" : "Menu"} className="w-6 h-6" />
+                            <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="p-2 rounded-full bg-slate-800/50 hover:bg-slate-700 transition-colors">
+                                <Icon name={mobileMenuOpen ? "X" : "Menu"} className="w-6 h-6 text-white" />
                             </button>
-                            {menuOpen && (
-                                <div className="absolute right-0 top-16 w-64 glass-panel rounded-2xl p-2 flex flex-col gap-1 shadow-2xl animate-in z-50 border-l border-t border-white/10">
-                                    {['home', 'contacts', 'helplines', 'rights', 'map', 'protocol', 'legal'].map(id => (
-                                        <button key={id} onClick={() => { setView(id); setMenuOpen(false); }} className={`flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-medium transition-all ${view === id ? 'bg-indigo-600 text-white shadow-lg' : 'text-slate-300 hover:bg-white/5'}`}>
-                                            <span className="capitalize">{id}</span>
+                            
+                            {/* Dropdown Menu */}
+                            {mobileMenuOpen && (
+                                <div className="absolute right-0 top-14 w-64 glass-panel rounded-2xl p-2 flex flex-col gap-1 shadow-2xl animate-in fade-in slide-in-from-top-5">
+                                    <div className="px-4 py-3 border-b border-white/5 mb-1">
+                                        <p className="text-xs text-slate-400 uppercase tracking-wider font-bold">Signed in as</p>
+                                        <p className="text-sm text-white font-medium truncate">{user?.displayName || 'Anonymous User'}</p>
+                                    </div>
+                                    
+                                    {[
+                                        { id: 'home', label: 'Dashboard', icon: 'LayoutDashboard' },
+                                        { id: 'contacts', label: 'Guardian Contacts', icon: 'Users' },
+                                        { id: 'helplines', label: 'Emergency Numbers', icon: 'Phone' },
+                                        { id: 'rights', label: 'Women Rights', icon: 'Scale' },
+                                        { id: 'map', label: 'Safe Map', icon: 'MapPin' },
+                                        { id: 'protocol', label: 'Safety Protocols', icon: 'BookOpen' },
+                                        { id: 'legal', label: 'Legal Info', icon: 'FileText' }
+                                    ].map(item => (
+                                        <button 
+                                            key={item.id}
+                                            onClick={() => { setView(item.id); setMobileMenuOpen(false); }}
+                                            className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-colors ${view === item.id ? 'bg-rose-500 text-white' : 'text-slate-300 hover:bg-slate-800'}`}
+                                        >
+                                            <Icon name={item.icon} className="w-4 h-4" />
+                                            {item.label}
+                                            {view === item.id && <span className="ml-auto w-1.5 h-1.5 bg-white rounded-full"></span>}
                                         </button>
                                     ))}
+                                    
                                     <div className="h-px bg-white/10 my-1"></div>
-                                    <button onClick={() => alert("Install PWA")} className="flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-bold text-emerald-400 hover:bg-emerald-500/10"><Icon name="Download" className="w-4 h-4"/> Install App</button>
-                                    <button onClick={() => { auth.signOut(); setMenuOpen(false); }} className="flex items-center gap-3 px-4 py-3.5 rounded-xl text-sm font-bold text-rose-400 hover:bg-rose-500/10"><Icon name="LogOut" className="w-4 h-4"/> Sign Out</button>
+                                    
+                                    <button onClick={installApp} className="text-left px-5 py-4 rounded-2xl text-sm font-bold text-emerald-400 hover:bg-emerald-500/10 transition-all flex items-center gap-2">
+                                        <Icon name="Download" className="w-4 h-4" /> Install App
+                                    </button>
+                                    
+                                    <button onClick={() => { signOut(); setMobileMenuOpen(false); }} className="text-left px-5 py-4 rounded-2xl text-sm font-bold text-rose-400 hover:bg-rose-500/10 hover:text-rose-300 transition-all flex items-center gap-2">
+                                        <Icon name="LogOut" className="w-4 h-4" /> Sign Out
+                                    </button>
                                 </div>
                             )}
                         </div>
                     </nav>
 
-                    <main className="h-full w-full pt-20 relative z-0">
+                    {/* Main Content Area */}
+                    <main className="h-full w-full pt-20">
                         {view === 'home' && <HomeView user={user} setView={setView} />}
                         {view === 'contacts' && <ContactsView user={user} onBack={() => setView('home')} />}
                         {view === 'helplines' && <HelplinesView onBack={() => setView('home')} />}
@@ -609,16 +1036,17 @@
                         {view === 'legal' && <LegalView onBack={() => setView('home')} />}
                     </main>
 
-                    {/* Exit Button */}
-                    <button onClick={() => window.location.replace("https://www.google.com")} className="absolute bottom-6 right-6 z-40 bg-slate-800 text-slate-400 p-3 rounded-full shadow-lg border border-slate-700 active:scale-95 transition-all opacity-70 hover:opacity-100">
-                        <Icon name="LogOut" className="w-5 h-5" />
-                    </button>
+                    <QuickExitButton />
                 </div>
             );
         };
 
         const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<ErrorBoundary><App /></ErrorBoundary>);
+        root.render(
+            <ErrorBoundary>
+                <App />
+            </ErrorBoundary>
+        );
     </script>
 </body>
 </html>

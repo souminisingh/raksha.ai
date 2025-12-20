@@ -110,11 +110,12 @@
 
         // --- ROBUST FIREBASE & ENV SETUP ---
         let auth, db;
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'raksha-x-demo';
         
         // Safe check for Firebase availability
         const isFirebaseAvailable = typeof firebase !== 'undefined' && firebase.apps;
         
-        // Config handling (prevents crash if __firebase_config is missing)
+        // Config handling
         let firebaseConfig = null;
         try {
             if (typeof __firebase_config !== 'undefined') {
@@ -141,7 +142,6 @@
                 // Mock Auth for UI Demo
                 auth = {
                     onAuthStateChanged: (cb) => {
-                        // Delay slightly to simulate network check
                         setTimeout(() => cb({ uid: 'demo-user', displayName: 'Guardian' }), 500);
                         return () => {};
                     },
@@ -149,7 +149,26 @@
                     signOut: () => { window.location.reload(); },
                     currentUser: { uid: 'demo-user', displayName: 'Guardian' }
                 };
-                db = { collection: () => ({ add: () => Promise.resolve() }) };
+                // Enhanced Mock DB to prevent crashes when accessing subcollections
+                const mockCollection = {
+                    onSnapshot: (cb) => { cb({ docs: [] }); return () => {}; },
+                    add: () => Promise.resolve({ id: 'mock-id' }),
+                    doc: () => ({ 
+                        delete: () => Promise.resolve(),
+                        update: () => Promise.resolve() 
+                    })
+                };
+                
+                db = { 
+                    collection: () => ({
+                        doc: () => ({
+                            collection: () => mockCollection,
+                            set: () => Promise.resolve(),
+                            get: () => Promise.resolve({ exists: false, data: () => ({}) })
+                        }),
+                        add: () => Promise.resolve()
+                    })
+                };
             }
         };
 
@@ -157,7 +176,6 @@
 
         // --- UTILITIES ---
 
-        // Icon Component with Retry Logic and Safety Checks
         const Icon = ({ name, className, ...props }) => {
             const [isLoaded, setIsLoaded] = useState(typeof lucide !== 'undefined');
             
@@ -173,7 +191,6 @@
             }, [isLoaded]);
 
             if (!isLoaded || !lucide?.icons || !lucide.icons[name]) {
-                // Fallback for missing icons or while loading
                 return <span className={`inline-block w-5 h-5 bg-slate-700 rounded-sm opacity-50 ${className}`} />;
             }
             
@@ -204,12 +221,168 @@
 
         // --- VIEWS ---
 
+        // FEATURE 5: Editable Guardian Contacts View
+        const ContactsView = ({ user, onBack }) => {
+            const [contacts, setContacts] = useState([]);
+            const [loading, setLoading] = useState(true);
+            const [isAdding, setIsAdding] = useState(false);
+            const [newContact, setNewContact] = useState({ name: '', phone: '', relation: '' });
+            const [error, setError] = useState('');
+
+            // Fetch Contacts using Firestore
+            useEffect(() => {
+                if (!user) return;
+                const contactsRef = db.collection('artifacts').doc(appId).collection('users').doc(user.uid).collection('contacts');
+                
+                const unsubscribe = contactsRef.onSnapshot((snapshot) => {
+                    const loadedContacts = snapshot.docs.map(doc => ({
+                        id: doc.id,
+                        ...doc.data()
+                    }));
+                    setContacts(loadedContacts);
+                    setLoading(false);
+                }, (err) => {
+                    console.error("Error fetching contacts:", err);
+                    setLoading(false);
+                });
+
+                return () => unsubscribe();
+            }, [user]);
+
+            const handleAddContact = async (e) => {
+                e.preventDefault();
+                setError('');
+                if (!newContact.name || !newContact.phone) {
+                    setError('Name and Phone are required');
+                    return;
+                }
+
+                try {
+                    await db.collection('artifacts').doc(appId).collection('users').doc(user.uid).collection('contacts').add({
+                        name: newContact.name,
+                        phone: newContact.phone,
+                        relation: newContact.relation || 'Friend',
+                        createdAt: new Date().toISOString()
+                    });
+                    setNewContact({ name: '', phone: '', relation: '' });
+                    setIsAdding(false);
+                } catch (err) {
+                    console.error("Error adding contact", err);
+                    setError('Failed to add contact. Try again.');
+                }
+            };
+
+            const handleDelete = async (id) => {
+                if (!confirm("Remove this guardian contact?")) return;
+                try {
+                    await db.collection('artifacts').doc(appId).collection('users').doc(user.uid).collection('contacts').doc(id).delete();
+                } catch (err) {
+                    console.error("Error deleting contact", err);
+                }
+            };
+
+            return (
+                <div className="h-full flex flex-col px-5 pb-24 overflow-y-auto">
+                    <div className="flex items-center gap-4 py-5 mb-2 sticky top-0 bg-[#020617]/90 backdrop-blur-md z-10 border-b border-white/5">
+                        <button onClick={onBack} className="p-2 bg-slate-800 rounded-full active:scale-90 transition-transform">
+                            <Icon name="ArrowLeft" className="w-5 h-5 text-white" />
+                        </button>
+                        <h2 className="text-xl font-bold text-white">Guardian Contacts</h2>
+                        <button 
+                            onClick={() => setIsAdding(!isAdding)} 
+                            className={`ml-auto p-2 rounded-full transition-colors ${isAdding ? 'bg-rose-500/20 text-rose-400' : 'bg-emerald-500/20 text-emerald-400'}`}
+                        >
+                            <Icon name={isAdding ? "X" : "Plus"} className="w-5 h-5" />
+                        </button>
+                    </div>
+
+                    {isAdding && (
+                        <div className="mb-6 glass-panel p-4 rounded-xl animate-in fade-in slide-in-from-top-5">
+                            <h3 className="text-sm font-bold text-white mb-3">New Guardian</h3>
+                            <form onSubmit={handleAddContact} className="space-y-3">
+                                <input 
+                                    type="text" 
+                                    placeholder="Name" 
+                                    className="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-rose-500"
+                                    value={newContact.name}
+                                    onChange={e => setNewContact({...newContact, name: e.target.value})}
+                                />
+                                <input 
+                                    type="tel" 
+                                    placeholder="Phone Number" 
+                                    className="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-rose-500"
+                                    value={newContact.phone}
+                                    onChange={e => setNewContact({...newContact, phone: e.target.value})}
+                                />
+                                <input 
+                                    type="text" 
+                                    placeholder="Relationship (e.g. Mom)" 
+                                    className="w-full bg-slate-900/50 border border-slate-700 rounded-lg px-4 py-2.5 text-sm text-white focus:outline-none focus:border-rose-500"
+                                    value={newContact.relation}
+                                    onChange={e => setNewContact({...newContact, relation: e.target.value})}
+                                />
+                                {error && <p className="text-xs text-rose-500 font-medium">{error}</p>}
+                                <button type="submit" className="w-full bg-gradient-to-r from-emerald-500 to-emerald-600 text-white font-bold py-2.5 rounded-lg text-sm shadow-lg shadow-emerald-500/20">
+                                    Save Contact
+                                </button>
+                            </form>
+                        </div>
+                    )}
+
+                    {loading ? (
+                        <div className="flex justify-center py-10"><div className="spinner w-6 h-6 border-2"></div></div>
+                    ) : contacts.length === 0 ? (
+                        <div className="text-center py-12 px-4 opacity-50 flex flex-col items-center">
+                            <Icon name="Users" className="w-12 h-12 mb-3 text-slate-500" />
+                            <p className="text-slate-400">No contacts added yet.</p>
+                            <p className="text-xs text-slate-600 mt-1">Add trusted people to notify in emergencies.</p>
+                        </div>
+                    ) : (
+                        <div className="space-y-3">
+                            {contacts.map(contact => (
+                                <div key={contact.id} className="glass-panel p-4 rounded-xl flex items-center justify-between group">
+                                    <div className="flex items-center gap-3">
+                                        <div className="w-10 h-10 rounded-full bg-slate-800 flex items-center justify-center text-slate-400 font-bold border border-slate-700">
+                                            {contact.name.charAt(0).toUpperCase()}
+                                        </div>
+                                        <div>
+                                            <p className="text-white font-medium text-sm">{contact.name}</p>
+                                            <div className="flex items-center gap-2 text-xs text-slate-400">
+                                                <span className="bg-slate-800 px-1.5 py-0.5 rounded text-slate-300">{contact.relation}</span>
+                                                <span>{contact.phone}</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <button 
+                                        onClick={() => handleDelete(contact.id)}
+                                        className="p-2 text-slate-500 hover:text-rose-500 transition-colors"
+                                    >
+                                        <Icon name="Trash2" className="w-4 h-4" />
+                                    </button>
+                                </div>
+                            ))}
+                        </div>
+                    )}
+                </div>
+            );
+        };
+
         const HomeView = ({ user, setView }) => {
             const [isSOSActive, setIsSOSActive] = useState(false);
             const [countdown, setCountdown] = useState(5);
+            const [guardianCount, setGuardianCount] = useState(0);
             const timerRef = useRef(null);
 
-            // Cleanup timer on unmount
+            // Fetch guardian count for UI feedback
+            useEffect(() => {
+                if (!user) return;
+                const contactsRef = db.collection('artifacts').doc(appId).collection('users').doc(user.uid).collection('contacts');
+                const unsubscribe = contactsRef.onSnapshot(snap => {
+                    setGuardianCount(snap.docs.length);
+                }, () => setGuardianCount(0)); // Fail silently to 0
+                return () => unsubscribe();
+            }, [user]);
+
             useEffect(() => {
                 return () => {
                     if (timerRef.current) clearInterval(timerRef.current);
@@ -229,7 +402,7 @@
                         setCountdown(prev => {
                             if (prev <= 1) {
                                 clearInterval(timerRef.current);
-                                alert("SOS ALERT SENT! (Simulation)");
+                                alert(`SOS ALERT SENT!\nNotifying ${guardianCount} Guardian(s) with your live location.`);
                                 setIsSOSActive(false);
                                 return 5;
                             }
@@ -267,16 +440,16 @@
                             </div>
                         </button>
                         <p className="mt-8 text-slate-400 text-sm font-medium text-center max-w-[200px]">
-                            {isSOSActive ? "Tap again to CANCEL" : "Tap immediately for Emergency Assistance"}
+                            {isSOSActive ? "Tap again to CANCEL" : `Tap immediately to alert ${guardianCount > 0 ? guardianCount + ' Guardians' : 'Emergency Services'}`}
                         </p>
                     </div>
 
                     <div className="grid grid-cols-2 gap-3 mt-auto">
-                        <button onClick={() => setView('map')} className="glass-panel p-4 rounded-2xl flex flex-col items-center justify-center gap-2 active:scale-95 transition-transform border-l-4 border-l-blue-500">
-                            <div className="p-3 bg-blue-500/20 rounded-full text-blue-400">
-                                <Icon name="MapPin" className="w-6 h-6" />
+                        <button onClick={() => setView('contacts')} className="glass-panel p-4 rounded-2xl flex flex-col items-center justify-center gap-2 active:scale-95 transition-transform border-l-4 border-l-purple-500">
+                            <div className="p-3 bg-purple-500/20 rounded-full text-purple-400">
+                                <Icon name="Users" className="w-6 h-6" />
                             </div>
-                            <span className="text-sm font-semibold text-slate-200">Safe Map</span>
+                            <span className="text-sm font-semibold text-slate-200">Guardians</span>
                         </button>
                         <button onClick={() => setView('protocol')} className="glass-panel p-4 rounded-2xl flex flex-col items-center justify-center gap-2 active:scale-95 transition-transform border-l-4 border-l-amber-500">
                             <div className="p-3 bg-amber-500/20 rounded-full text-amber-400">
@@ -311,7 +484,6 @@
         const ProtocolView = ({ onBack }) => {
             const [selectedId, setSelectedId] = useState(null);
 
-            // Fixed: Use explicit color mappings instead of dynamic string templates for Tailwind reliability
             const colorMap = {
                 emerald: { bg: 'bg-emerald-500/20', text: 'text-emerald-400', border: 'border-emerald-500' },
                 orange: { bg: 'bg-orange-500/20', text: 'text-orange-400', border: 'border-orange-500' },
@@ -381,7 +553,7 @@
                 <div className="text-slate-400 space-y-4 text-sm glass-panel p-4 rounded-xl">
                     <p><strong>Disclaimer:</strong> This is a demonstration build of Raksha X. Emergency services features (SOS, Calling) are simulated.</p>
                     <p>In a real emergency, always call your local emergency number (e.g., 911, 100, 112) directly from your phone's dialer.</p>
-                    <p className="text-xs text-slate-500 mt-4">Version 1.0.0 (Demo Build)</p>
+                    <p className="text-xs text-slate-500 mt-4">Version 1.1.0 (Demo Build)</p>
                 </div>
             </div>
         );
@@ -449,6 +621,7 @@
                                     
                                     {[
                                         { id: 'home', label: 'Dashboard', icon: 'Home' },
+                                        { id: 'contacts', label: 'Guardian Contacts', icon: 'Users' },
                                         { id: 'map', label: 'Safe Map', icon: 'MapPin' },
                                         { id: 'protocol', label: 'Safety Protocols', icon: 'BookOpen' },
                                         { id: 'legal', label: 'Legal Info', icon: 'FileText' }
@@ -481,6 +654,7 @@
                     {/* Main Content Area */}
                     <main className="h-full w-full pt-20">
                         {view === 'home' && <HomeView user={user} setView={setView} />}
+                        {view === 'contacts' && <ContactsView user={user} onBack={() => setView('home')} />}
                         {view === 'map' && <MapView onBack={() => setView('home')} />}
                         {view === 'protocol' && <ProtocolView onBack={() => setView('home')} />}
                         {view === 'legal' && <LegalView onBack={() => setView('home')} />}

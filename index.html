@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Raksha - Women Safety App</title>
 
-    <meta name="theme-color" content="#110524">
+    <meta name="theme-color" content="#d946ef">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -29,28 +29,37 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.css" />
     <script src="https://unpkg.com/leaflet-routing-machine@latest/dist/leaflet-routing-machine.js"></script>
 
-    <style>
-        html {
-            background-color: #110524;
-        }
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            -webkit-tap-highlight-color: transparent;
-    
-    /* --- NEW BACKGROUND START --- */
-            background-image: url('https://i.pinimg.com/originals/15/d2/84/15d284f1896798e4f55393666504a3f3.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-    /* --- NEW BACKGROUND END --- */
-
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
-            color: white;
+   <style>
+    html {
+        /* Change this from #110524 to transparent */
+        background-color: transparent; 
     }
+    body {
+        font-family: 'Plus Jakarta Sans', sans-serif;
+        -webkit-tap-highlight-color: transparent;
+
+        /* This is your Pinterest background */
+        background-image: url('https://i.pinimg.com/originals/15/d2/84/15d284f1896798e4f55393666504a3f3.jpg');
+        background-size: cover;
+        background-position: center;
+        background-attachment: fixed;
+        background-repeat: no-repeat;
+        background-color: #110524; /* This acts as a fallback while the image loads */
+
+        min-height: 100vh;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow-x: hidden;
+        color: white;
+    }
+    
+    /* Add this to make sure the React container doesn't block the background */
+    #root {
+        background: transparent !important;
+    }
+</style>
+    
         
 
         /* Pulse Animations */

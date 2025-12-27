@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Raksha - Women Safety App</title>
 
-    <meta name="theme-color" content="#d946ef">
+    <meta name="theme-color" content="#110524">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -14,51 +14,40 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     
     <style>
-        /* CSS Background Implementation */
-        html {
-            background: #110524; 
+        /* Base Styling & Background */
+        html, body {
             height: 100%;
             margin: 0;
             padding: 0;
+            background: #0d0221;
+            overflow: hidden;
         }
 
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             -webkit-tap-highlight-color: transparent;
-            margin: 0;
-            padding: 0;
-            min-height: 100vh;
-            width: 100%;
             color: white;
-
-            /* Set the background image here */
             background-image: 
-                linear-gradient(rgba(17, 5, 36, 0.4), rgba(17, 5, 36, 0.6)), 
+                linear-gradient(rgba(13, 2, 33, 0.85), rgba(13, 2, 33, 0.96)), 
                 url('https://i.pinimg.com/originals/15/d2/84/15d284f1896798e4f55393666504a3f3.jpg');
-            
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
             background-repeat: no-repeat;
-            
-            display: flex;
-            flex-direction: column;
-            overflow-x: hidden;
         }
 
         #root {
-            width: 100%;
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
             flex-direction: column;
-            background: transparent !important;
+            overflow: hidden;
         }
 
         .glass-panel {
-            background: rgba(255, 255, 255, 0.08);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(255, 255, 255, 0.04);
+            backdrop-filter: blur(30px);
+            -webkit-backdrop-filter: blur(30px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .danger-pulse {
@@ -66,169 +55,197 @@
         }
 
         @keyframes pulse-danger {
-            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.7); }
-            70% { box-shadow: 0 0 0 20px rgba(239, 68, 68, 0); }
+            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
+            70% { box-shadow: 0 0 0 35px rgba(239, 68, 68, 0); }
             100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
         }
 
-        /* Modern scrollbar */
-        ::-webkit-scrollbar { width: 4px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { background: rgba(255, 255, 255, 0.2); border-radius: 10px; }
+        .tab-active {
+            background: #d946ef;
+            color: white;
+            box-shadow: 0 12px 28px -5px rgba(217, 70, 239, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .page-enter {
+            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
 <body>
     <div id="root"></div>
 
-    <!-- Load React Dependencies -->
+    <!-- Script Dependencies -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
 
     <script type="text/babel">
-        const { useState, useEffect } = React;
+        const { useState, useEffect, useCallback } = React;
         
         /**
-         * Safe Icon Component
-         * Resolves Error #130 by using React.createElement with the Lucide object
+         * Robust Icon Component
+         * Fixed to prevent React Error #130 by ensuring we return a valid element
          */
         const Icon = ({ name, size = 24, className = "" }) => {
-            const iconName = name.charAt(0).toUpperCase() + name.slice(1);
-            const LucideIcon = lucide[iconName];
-            
-            if (!LucideIcon) {
-                console.warn(`Icon "${iconName}" not found.`);
-                return null;
+            // Check if lucide is available globally
+            if (typeof lucide === 'undefined' || !lucide) {
+                return <div style={{ width: size, height: size }} className={className}></div>;
             }
             
-            return React.createElement(LucideIcon, { size, className });
+            // Normalize icon name
+            const iconKey = name.charAt(0).toUpperCase() + name.slice(1);
+            const LucideIcon = lucide[iconKey];
+            
+            if (!LucideIcon) {
+                return <span className={className}>●</span>;
+            }
+            
+            // Create the element correctly
+            return <LucideIcon size={size} className={className} strokeWidth={2.3} />;
         };
 
-        const NavButton = ({ iconName, label, active, onClick }) => (
+        const NavButton = ({ id, icon, label, active, onClick }) => (
             <button
-                onClick={onClick}
-                className={`flex-1 flex flex-col items-center py-3 rounded-2xl transition-all duration-300 ${
-                    active ? 'bg-fuchsia-500 text-white shadow-lg' : 'text-white/50 hover:text-white'
+                onClick={() => onClick(id)}
+                className={`flex-1 flex flex-col items-center py-4 rounded-2xl transition-all duration-500 ${
+                    active ? 'tab-active' : 'text-white/20 hover:text-white/40'
                 }`}
             >
-                <Icon name={iconName} size={20} className={active ? 'animate-pulse' : ''} />
-                <span className="text-[10px] font-bold mt-1 uppercase tracking-tighter">{label}</span>
+                <Icon name={icon} size={20} className={active ? 'animate-pulse' : ''} />
+                <span className="text-[8px] font-black mt-2 uppercase tracking-[0.2em]">{label}</span>
             </button>
         );
 
         function App() {
             const [activeTab, setActiveTab] = useState('home');
             const [isSosActive, setIsSosActive] = useState(false);
+            const [isLoaded, setIsLoaded] = useState(false);
 
-            // Ensure icons are initialized when view changes
             useEffect(() => {
-                if (window.lucide) {
-                    window.lucide.createIcons();
-                }
-            }, [activeTab]);
+                // Ensure lucide is ready before showing UI to prevent blank screen
+                const checkLucide = setInterval(() => {
+                    if (typeof lucide !== 'undefined') {
+                        setIsLoaded(true);
+                        clearInterval(checkLucide);
+                    }
+                }, 50);
+                return () => clearInterval(checkLucide);
+            }, []);
+
+            const toggleSos = useCallback(() => {
+                setIsSosActive(prev => !prev);
+            }, []);
+
+            if (!isLoaded) return null;
 
             return (
-                <div className="flex-1 flex flex-col max-w-md mx-auto w-full relative min-h-screen">
-                    {/* App Header */}
-                    <header className="px-6 pt-8 pb-4 flex justify-between items-center z-10">
+                <div className="flex-1 flex flex-col max-w-md mx-auto w-full relative h-full no-scrollbar">
+                    {/* Header */}
+                    <header className="px-8 pt-16 pb-6 flex justify-between items-center z-10 shrink-0">
                         <div>
-                            <h1 className="text-3xl font-extrabold tracking-tight bg-gradient-to-r from-white to-white/60 bg-clip-text text-transparent">
-                                Raksha
-                            </h1>
-                            <p className="text-xs text-fuchsia-300 font-bold uppercase tracking-widest mt-0.5">Safety Companion</p>
+                            <h1 className="text-3xl font-black tracking-tighter text-white italic">RAKSHA</h1>
+                            <div className="flex items-center gap-2 mt-1">
+                                <div className={`w-2 h-2 rounded-full ${isSosActive ? 'bg-red-500' : 'bg-fuchsia-400'} animate-pulse shadow-lg`}></div>
+                                <p className="text-[10px] text-fuchsia-300 font-bold uppercase tracking-widest">Shield Active</p>
+                            </div>
                         </div>
-                        <div className="flex gap-3">
-                            <button className="p-2.5 rounded-xl glass-panel text-white/80 hover:text-white transition-colors">
-                                <Icon name="Bell" size={20} />
-                            </button>
-                            <button className="p-2.5 rounded-xl glass-panel text-white/80 hover:text-white transition-colors">
-                                <Icon name="Settings" size={20} />
-                            </button>
-                        </div>
+                        <button className="p-4 rounded-2xl glass-panel text-white/80 active:scale-90 transition-all">
+                            <Icon name="Bell" size={20} />
+                        </button>
                     </header>
 
-                    <main className="flex-1 px-4 pb-32">
-                        {activeTab === 'home' && (
-                            <div className="space-y-6">
-                                {/* SOS Button Section */}
-                                <div className="flex flex-col items-center justify-center py-10">
-                                    <button 
-                                        onClick={() => setIsSosActive(!isSosActive)}
-                                        className={`relative group transition-all duration-500 transform active:scale-95 ${isSosActive ? 'danger-pulse' : ''}`}
-                                    >
-                                        <div className={`absolute inset-0 rounded-full blur-3xl opacity-40 transition-all duration-500 ${isSosActive ? 'bg-red-500' : 'bg-fuchsia-500'}`}></div>
-                                        <div className={`w-56 h-56 rounded-full flex flex-col items-center justify-center relative border-8 transition-all duration-500 ${isSosActive ? 'bg-red-600 border-red-400' : 'bg-gradient-to-br from-fuchsia-600 to-purple-700 border-fuchsia-400/30'}`}>
-                                            <Icon name="ShieldAlert" size={64} className="text-white mb-2" />
-                                            <span className="text-3xl font-black text-white tracking-tighter">SOS</span>
-                                            <span className="text-[10px] text-white/80 font-bold uppercase tracking-widest mt-1">Tap to Alert</span>
+                    {/* Content Section */}
+                    <main className="flex-1 px-7 pb-36 overflow-y-auto no-scrollbar">
+                        <div className="page-enter">
+                            {activeTab === 'home' && (
+                                <div className="space-y-12 py-4">
+                                    <div className="flex flex-col items-center justify-center py-6">
+                                        <div className="relative">
+                                            <div className={`absolute inset-0 rounded-full blur-[80px] opacity-30 transition-all duration-1000 ${isSosActive ? 'bg-red-600' : 'bg-fuchsia-500'}`}></div>
+                                            
+                                            <button 
+                                                onClick={toggleSos}
+                                                className={`relative w-64 h-64 rounded-full flex flex-col items-center justify-center border-[12px] transition-all duration-700 transform active:scale-95 ${
+                                                    isSosActive 
+                                                    ? 'bg-red-600 border-red-400/30 danger-pulse' 
+                                                    : 'bg-gradient-to-br from-fuchsia-600 to-indigo-950 border-white/5 shadow-2xl'
+                                                }`}
+                                            >
+                                                <Icon name="ShieldAlert" size={80} className="text-white mb-2" />
+                                                <span className="text-5xl font-black text-white tracking-tighter italic">{isSosActive ? 'ACTIVE' : 'SOS'}</span>
+                                                <span className="text-[10px] text-white/40 font-bold uppercase tracking-[0.4em] mt-4">
+                                                    {isSosActive ? 'Alert Sent' : 'Hold to Help'}
+                                                </span>
+                                            </button>
                                         </div>
-                                    </button>
-                                    <p className="text-white/60 text-sm mt-8 font-medium italic">Hold for 3 seconds for silent alert</p>
-                                </div>
+                                    </div>
 
-                                {/* Status Card */}
-                                <div className="glass-panel rounded-3xl p-5 flex items-center gap-4">
-                                    <div className="w-12 h-12 rounded-2xl bg-green-500/20 flex items-center justify-center border border-green-500/30">
-                                        <Icon name="ShieldCheck" className="text-green-400" size={24} />
+                                    <div className="glass-panel rounded-[2.5rem] p-7 flex items-center gap-6 border border-white/10 shadow-xl">
+                                        <div className="w-14 h-14 rounded-2xl bg-green-500/10 flex items-center justify-center border border-green-500/20">
+                                            <Icon name="ShieldCheck" className="text-green-400" size={28} />
+                                        </div>
+                                        <div className="flex-1">
+                                            <h3 className="font-bold text-white text-lg tracking-tight">Real-time GPS</h3>
+                                            <p className="text-white/30 text-[9px] font-black uppercase tracking-widest">Encryption Active</p>
+                                        </div>
+                                        <Icon name="ChevronRight" size={18} className="text-white/10" />
                                     </div>
-                                    <div className="flex-1">
-                                        <h3 className="font-bold text-white text-lg leading-tight">You are safe</h3>
-                                        <p className="text-white/50 text-xs">Tracking active • Mumbai, India</p>
-                                    </div>
-                                    <div className="w-3 h-3 rounded-full bg-green-500 animate-pulse"></div>
-                                </div>
-                                
-                                {/* Quick Actions */}
-                                <div className="grid grid-cols-2 gap-4">
-                                    <div className="glass-panel rounded-3xl p-5 hover:bg-white/10 transition-all cursor-pointer">
-                                        <Icon name="Phone" className="text-blue-400 mb-3" size={24} />
-                                        <h4 className="font-bold text-white">Call 112</h4>
-                                        <p className="text-white/40 text-[10px] mt-1">Emergency</p>
-                                    </div>
-                                    <div className="glass-panel rounded-3xl p-5 hover:bg-white/10 transition-all cursor-pointer">
-                                        <Icon name="Users" className="text-orange-400 mb-3" size={24} />
-                                        <h4 className="font-bold text-white">Contacts</h4>
-                                        <p className="text-white/40 text-[10px] mt-1">Alert Circle</p>
-                                    </div>
-                                </div>
-                            </div>
-                        )}
-
-                        {activeTab === 'map' && (
-                            <div className="h-full space-y-4">
-                                <div className="glass-panel rounded-3xl overflow-hidden h-[450px] relative">
-                                    <div className="absolute inset-0 bg-slate-800 flex items-center justify-center opacity-40">
-                                        <Icon name="Map" size={60} className="text-white/20" />
-                                    </div>
-                                    <div className="absolute bottom-6 left-6 right-6">
-                                        <div className="glass-panel p-4 rounded-2xl">
-                                            <p className="font-bold text-sm">Nearby Safe Zones</p>
-                                            <div className="flex gap-2 mt-2">
-                                                <div className="px-3 py-1 bg-green-500/20 text-green-400 rounded-lg text-xs font-bold border border-green-500/30">Police Station (200m)</div>
+                                    
+                                    <div className="grid grid-cols-2 gap-5">
+                                        <div className="glass-panel rounded-[2rem] p-7 active:scale-95 transition-all border border-white/5 shadow-lg">
+                                            <div className="w-11 h-11 rounded-xl bg-blue-500/10 flex items-center justify-center mb-5 border border-blue-500/20">
+                                                <Icon name="Phone" className="text-blue-400" size={22} />
                                             </div>
+                                            <h4 className="font-bold text-white text-md tracking-tight">Police</h4>
+                                            <p className="text-white/20 text-[9px] mt-1 font-black uppercase tracking-widest italic">Emergency</p>
+                                        </div>
+                                        <div className="glass-panel rounded-[2rem] p-7 active:scale-95 transition-all border border-white/5 shadow-lg">
+                                            <div className="w-11 h-11 rounded-xl bg-purple-500/10 flex items-center justify-center mb-5 border border-purple-500/20">
+                                                <Icon name="Heart" className="text-purple-400" size={22} />
+                                            </div>
+                                            <h4 className="font-bold text-white text-md tracking-tight">Family</h4>
+                                            <p className="text-white/20 text-[9px] mt-1 font-black uppercase tracking-widest italic">3 Guardians</p>
                                         </div>
                                     </div>
                                 </div>
-                            </div>
-                        )}
+                            )}
+
+                            {activeTab !== 'home' && (
+                                <div className="flex flex-col items-center justify-center h-[60vh] glass-panel rounded-[3rem] border border-white/5 shadow-2xl text-center px-10">
+                                    <Icon name="Lock" size={48} className="text-white/10 mb-6" />
+                                    <h2 className="text-white/40 font-black text-xl uppercase tracking-tighter">Module Locked</h2>
+                                    <p className="text-white/20 font-bold uppercase tracking-widest text-[9px] mt-2">Verification Required</p>
+                                </div>
+                            )}
+                        </div>
                     </main>
 
                     {/* Navigation Bar */}
-                    <nav className="fixed bottom-6 left-6 right-6 z-50">
-                        <div className="glass-panel rounded-[32px] p-2 flex justify-between items-center shadow-2xl">
+                    <nav className="fixed bottom-10 left-7 right-7 z-50">
+                        <div className="glass-panel rounded-[2.5rem] p-2 flex justify-between items-center shadow-2xl border border-white/10">
                             {[
-                                { id: 'home', icon: 'Home', label: 'Home' },
-                                { id: 'map', icon: 'Map', label: 'Map' },
-                                { id: 'community', icon: 'Users', label: 'Feed' },
-                                { id: 'profile', icon: 'User', label: 'Profile' }
+                                { id: 'home', icon: 'Shield', label: 'Safety' },
+                                { id: 'map', icon: 'Navigation', label: 'Routes' },
+                                { id: 'community', icon: 'Users2', label: 'Circle' },
+                                { id: 'profile', icon: 'User', label: 'Me' }
                             ].map((tab) => (
                                 <NavButton 
                                     key={tab.id}
-                                    iconName={tab.icon}
+                                    id={tab.id}
+                                    icon={tab.icon}
                                     label={tab.label}
                                     active={activeTab === tab.id}
-                                    onClick={() => setActiveTab(tab.id)}
+                                    onClick={setActiveTab}
                                 />
                             ))}
                         </div>
@@ -237,8 +254,12 @@
             );
         }
 
-        const root = ReactDOM.createRoot(document.getElementById('root'));
-        root.render(<App />);
+        // Final safety check for rendering
+        const container = document.getElementById('root');
+        if (container) {
+            const root = ReactDOM.createRoot(container);
+            root.render(<App />);
+        }
     </script>
 </body>
 </html>

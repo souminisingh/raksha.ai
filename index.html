@@ -5,19 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
     <title>Raksha - Women Safety App</title>
 
-    <meta name="theme-color" content="#110524">
+    <meta name="theme-color" content="#0f172a">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Raksha">
     <meta name="application-name" content="Raksha">
 
-    <!-- APP ICONS (JPG SUPPORT ADDED) -->
     <link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/AshSharma07/RAKSHA/main/image.jpg">
     <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/AshSharma07/RAKSHA/main/image.jpg">
 
-    <!-- UPDATED MANIFEST (Base64 Encoded with JPG Images) -->
-    <!-- Decoded: {"name":"Raksha Women Safety","short_name":"Raksha","start_url":".","display":"standalone","background_color":"#110524","theme_color":"#db2777","orientation":"portrait","icons":[{"src":"https://raw.githubusercontent.com/AshSharma07/RAKSHA/main/image.jpg","sizes":"192x192","type":"image/jpeg"},{"src":"https://raw.githubusercontent.com/AshSharma07/RAKSHA/main/image.jpg","sizes":"512x512","type":"image/jpeg"}]} -->
     <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiUmFra3NoYSBXb21lbiBTYWZldHkiLCJzaG9ydF9uYW1lIjoiUmFra3NoYSIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMTEwNTI0IiwidGhlbWVfY29sb3IiOiIjZGIyNzc3Iiwib3JpZW50YXRpb24iOiJwb3J0cmFpdCIsImljb25zIjpbeyJzcmMiOiJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vQXNoU2hhcm1hMDcvUkFLU0hBL21haW4vaW1hZ2UuanBnIiwic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL2pwZWcifSx7InNyYyI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9Bc2hTaGFybWEwNy9SQUtTSEEvbWFpbi9pbWFnZS5qcGciLCJzaXplcyI6IjUxMng1MTIiLCJ0eXBlIjoiaW1hZ2UvanBlZyJ9XX0=">
 
     <script src="https://cdn.tailwindcss.com"></script>
@@ -37,19 +34,24 @@
 
     <style>
         html {
-            background-color: #110524;
+            background-color: #0f172a;
         }
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             -webkit-tap-highlight-color: transparent; 
-            background-color: #110524;
+            background-color: #0f172a;
+            
+            /* UPDATED BACKGROUND WITH IMAGE AND OVERLAY */
             background-image: 
-                radial-gradient(circle at 10% 20%, rgba(219, 39, 119, 0.25) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(124, 58, 237, 0.3) 0%, transparent 40%),
-                linear-gradient(180deg, #1e0a3c 0%, #110524 100%);
+                linear-gradient(to bottom, rgba(15, 23, 42, 0.75) 0%, rgba(15, 23, 42, 0.9) 100%),
+                url('https://raw.githubusercontent.com/souminisingh/raksha.ai/main/image.jpg');
+            
             background-attachment: fixed;
             background-size: cover;
-            color: #fdf4ff;
+            background-position: center;
+            background-repeat: no-repeat;
+            
+            color: #f8fafc;
             overflow: hidden;
             height: 100vh;
             width: 100vw;
@@ -71,17 +73,17 @@
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(236, 72, 153, 0); }
         }
 
-        /* Modern Glassmorphism Utilities */
+        /* Modern Glassmorphism Utilities - UPDATED FOR IMAGE BACKGROUND */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.07);
-            backdrop-filter: blur(24px);
-            -webkit-backdrop-filter: blur(24px);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(30, 41, 59, 0.4); /* More neutral/slate glass */
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
 
         .glass-nav {
-            background: rgba(19, 5, 36, 0.85);
+            background: rgba(15, 23, 42, 0.85); /* Darker slate nav */
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -97,14 +99,14 @@
         ::-webkit-scrollbar-thumb { background-color: #6366f1; border-radius: 20px; }
 
         .glass-input {
-            background: rgba(0, 0, 0, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.15);
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: white;
             transition: all 0.3s ease;
         }
         .glass-input:focus {
             border-color: #d946ef;
-            background: rgba(0, 0, 0, 0.4);
+            background: rgba(0, 0, 0, 0.5);
             box-shadow: 0 0 0 4px rgba(217, 70, 239, 0.15);
         }
 
@@ -128,9 +130,6 @@
     <div id="root" class="h-full w-full"></div>
 
     <script>
-        // Attempt to register a Service Worker via Blob for single-file support
-        // Note: Chrome often blocks SW from Blobs for security. 
-        // For 100% reliability, this code must be in a file named 'sw.js'
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 const swCode = `
@@ -249,7 +248,7 @@
                 primary: "bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white shadow-[0_4px_20px_rgba(192,38,211,0.4)] hover:shadow-[0_8px_30px_rgba(192,38,211,0.5)] border border-fuchsia-400/30",
                 secondary: "bg-white/10 text-white border border-white/20 hover:bg-white/20 backdrop-blur-md",
                 danger: "bg-gradient-to-r from-red-600 to-pink-600 text-white shadow-red-900/50 animate-pulse-slow border border-red-500/30",
-                ghost: "bg-transparent text-purple-200 hover:text-white hover:bg-white/5",
+                ghost: "bg-transparent text-slate-200 hover:text-white hover:bg-white/5",
                 small: "px-3 py-1.5 text-xs bg-fuchsia-500/20 text-fuchsia-200 border border-fuchsia-500/30 rounded-lg",
                 google: "bg-blue-600 text-white hover:bg-blue-700 shadow-lg"
             };
@@ -258,7 +257,7 @@
 
         const Input = ({ label, name, type = "text", value, onChange, placeholder, required = false }) => (
             <div className="mb-5">
-                {label && <label className="block text-xs font-bold text-fuchsia-200/80 mb-2 uppercase tracking-wider">{label}</label>}
+                {label && <label className="block text-xs font-bold text-slate-300 mb-2 uppercase tracking-wider">{label}</label>}
                 <input name={name} type={type} value={value} onChange={onChange} placeholder={placeholder} required={required} className="w-full px-5 py-4 rounded-2xl glass-input placeholder-gray-400/70 outline-none" />
             </div>
         );
@@ -420,7 +419,6 @@
 
             const handleInstallClick = () => {
                 if (!installPrompt) {
-                    // Fallback: Instructions if browser blocks programmatic install
                     alert("To install: Tap the Share button (iOS) or Menu (Android) and select 'Add to Home Screen'");
                     return;
                 }
@@ -436,109 +434,109 @@
             };
 
             const apiCall = async (endpoint, method = 'GET', body = null, isFormData = false) => {
-    setLoading(true);
-    if (demoMode && endpoint !== '/api/panic/audio') { 
-        await new Promise(r => setTimeout(r, 600));
-        setLoading(false);
-        if (endpoint === '/api/contacts' && method === 'GET') return [{ contact_id: 1, contact_name: "Mom", contact_phone: "9876543210", relationship_type: "Parent" }, { contact_id: 2, contact_name: "Brother", contact_phone: "9123456789", relationship_type: "Sibling" }];
-        if (endpoint === '/api/contacts' && method === 'POST') return { message: 'Contact Added (Demo)', contact_id: Math.random() };
-        if (endpoint.includes('/api/contacts/') && method === 'DELETE') return { message: 'Deleted (Demo)' };
-        if (endpoint === '/api/panic') return { message: "SOS Alert Triggered!", alert_id: 123, notified_contacts: 2 };
-        if (endpoint === '/api/panic/resolve') return { message: "Alert Resolved" };
-        if (endpoint === '/api/chat') return { answer: "This is a demo response from the Legal AI. In a real scenario, I would analyze your legal question." };
-        if (endpoint === '/api/generate-safe-route') {
-            return { 
-                path: [
-                    {lat: 20.4632, lon: 85.8798}, 
-                    {lat: 20.4628, lon: 85.8805},
-                    {lat: 20.4620, lon: 85.8812},
-                    {lat: 20.4615, lon: 85.8820},
-                    {lat: 20.4610, lon: 85.8835},
-                    {lat: 20.4605, lon: 85.8850},
-                    {lat: 20.4600, lon: 85.8865}
-                ]
-            }; 
-        }
-        return {}; 
-    }
-    try {
-        const headers = {};
-        if (!isFormData) headers['Content-Type'] = 'application/json';
-        if (token) headers['Authorization'] = `Bearer ${token}`;
+                setLoading(true);
+                if (demoMode && endpoint !== '/api/panic/audio') { 
+                    await new Promise(r => setTimeout(r, 600));
+                    setLoading(false);
+                    if (endpoint === '/api/contacts' && method === 'GET') return [{ contact_id: 1, contact_name: "Mom", contact_phone: "9876543210", relationship_type: "Parent" }, { contact_id: 2, contact_name: "Brother", contact_phone: "9123456789", relationship_type: "Sibling" }];
+                    if (endpoint === '/api/contacts' && method === 'POST') return { message: 'Contact Added (Demo)', contact_id: Math.random() };
+                    if (endpoint.includes('/api/contacts/') && method === 'DELETE') return { message: 'Deleted (Demo)' };
+                    if (endpoint === '/api/panic') return { message: "SOS Alert Triggered!", alert_id: 123, notified_contacts: 2 };
+                    if (endpoint === '/api/panic/resolve') return { message: "Alert Resolved" };
+                    if (endpoint === '/api/chat') return { answer: "This is a demo response from the Legal AI. In a real scenario, I would analyze your legal question." };
+                    if (endpoint === '/api/generate-safe-route') {
+                        return { 
+                            path: [
+                                {lat: 20.4632, lon: 85.8798}, 
+                                {lat: 20.4628, lon: 85.8805},
+                                {lat: 20.4620, lon: 85.8812},
+                                {lat: 20.4615, lon: 85.8820},
+                                {lat: 20.4610, lon: 85.8835},
+                                {lat: 20.4605, lon: 85.8850},
+                                {lat: 20.4600, lon: 85.8865}
+                            ]
+                        }; 
+                    }
+                    return {}; 
+                }
+                try {
+                    const headers = {};
+                    if (!isFormData) headers['Content-Type'] = 'application/json';
+                    if (token) headers['Authorization'] = `Bearer ${token}`;
 
-        const response = await fetch(`${API_BASE_URL}${endpoint}`, {  
-            method, 
-            headers, 
-            body: isFormData ? body : (body ? JSON.stringify(body) : null) 
-        });
+                    const response = await fetch(`${API_BASE_URL}${endpoint}`, {  
+                        method, 
+                        headers, 
+                        body: isFormData ? body : (body ? JSON.stringify(body) : null) 
+                    });
 
-        if (!response.ok) {
-            const errorData = await response.json().catch(() => ({}));
-            throw new Error(errorData.message || `Server Error: ${response.status}`);
-        }
+                    if (!response.ok) {
+                        const errorData = await response.json().catch(() => ({}));
+                        throw new Error(errorData.message || `Server Error: ${response.status}`);
+                    }
 
-        const data = await response.json(); 
-        setLoading(false); 
-        return data;
-    } catch (error) {
-        setLoading(false);
-        console.error('API Call Error:', error);
-        if (endpoint !== '/api/panic/audio') showToast(error.message, 'error'); 
-        throw error; 
-    }
-};
+                    const data = await response.json(); 
+                    setLoading(false); 
+                    return data;
+                } catch (error) {
+                    setLoading(false);
+                    console.error('API Call Error:', error);
+                    if (endpoint !== '/api/panic/audio') showToast(error.message, 'error'); 
+                    throw error; 
+                }
+            };
 
             const handleLogin = async (e) => {
-    e.preventDefault();
-    try {
-        const data = await apiCall('/api/login', 'POST', { 
-            email: e.target.email.value, 
-            password: e.target.password.value 
-        });
-        setToken(data.token);
-        setUser({ email: e.target.email.value, id: data.user_id, name: data.name });
-        localStorage.setItem('raksha_token', data.token);
-        localStorage.setItem('raksha_user', JSON.stringify({ 
-            email: e.target.email.value, 
-            id: data.user_id,
-            name: data.name 
-        }));
-        showToast("Welcome back!"); 
-    } catch (err) {
-        console.error('Login error:', err);
-        showToast("Login failed. Please check your credentials.", "error");
-    }
-};
+                e.preventDefault();
+                try {
+                    const data = await apiCall('/api/login', 'POST', { 
+                        email: e.target.email.value, 
+                        password: e.target.password.value 
+                    });
+                    setToken(data.token);
+                    setUser({ email: e.target.email.value, id: data.user_id, name: data.name });
+                    localStorage.setItem('raksha_token', data.token);
+                    localStorage.setItem('raksha_user', JSON.stringify({ 
+                        email: e.target.email.value, 
+                        id: data.user_id,
+                        name: data.name 
+                    }));
+                    showToast("Welcome back!"); 
+                } catch (err) {
+                    console.error('Login error:', err);
+                    showToast("Login failed. Please check your credentials.", "error");
+                }
+            };
 
-const handleRegister = async (e) => {
-    e.preventDefault();
-    const formData = { 
-        name: e.target.name.value, 
-        email: e.target.email.value, 
-        password: e.target.password.value, 
-        phone_number: "0000000000" 
-    };
-    try {
-        const data = await apiCall('/api/register', 'POST', formData);
-        if (data.user_id) {
-            showToast("Account Created! Please Login.");
-            setActiveTab('login');
-            e.target.reset();
-        }
-    } catch (err) {
-        console.error('Registration error:', err);
-        showToast("Registration failed. Email may already exist.", "error");
-    }
-};
+            const handleRegister = async (e) => {
+                e.preventDefault();
+                const formData = { 
+                    name: e.target.name.value, 
+                    email: e.target.email.value, 
+                    password: e.target.password.value, 
+                    phone_number: "0000000000" 
+                };
+                try {
+                    const data = await apiCall('/api/register', 'POST', formData);
+                    if (data.user_id) {
+                        showToast("Account Created! Please Login.");
+                        setActiveTab('login');
+                        e.target.reset();
+                    }
+                } catch (err) {
+                    console.error('Registration error:', err);
+                    showToast("Registration failed. Email may already exist.", "error");
+                }
+            };
 
-const logout = () => {
-    setToken(null);
-    setUser(null);
-    localStorage.clear();
-    setActiveTab('home');
-    setDemoMode(false);
-    showToast("Logged out successfully");
-};
+            const logout = () => {
+                setToken(null);
+                setUser(null);
+                localStorage.clear();
+                setActiveTab('home');
+                setDemoMode(false);
+                showToast("Logged out successfully");
+            };
 
             const handlePanic = async () => {
                 if (!navigator.geolocation) { showToast("GPS not supported", "error"); return; }
@@ -599,7 +597,7 @@ const logout = () => {
 
                     {/* HIDE HEADER IN MAP MODE */}
                     {activeTab !== 'map' && (
-                        <header className="fixed top-0 w-full z-40 h-20 flex items-center bg-gradient-to-b from-[#110524] via-[#110524]/90 to-transparent pointer-events-none">
+                        <header className="fixed top-0 w-full z-40 h-20 flex items-center bg-gradient-to-b from-[#0f172a] via-[#0f172a]/90 to-transparent pointer-events-none">
                             <div className="max-w-md mx-auto px-6 w-full flex justify-between items-center pointer-events-auto">
                                 <div className="flex items-center gap-3">
                                     <div className="bg-gradient-to-tr from-fuchsia-600 to-purple-600 p-2 rounded-xl shadow-lg shadow-purple-900/50">
@@ -608,17 +606,15 @@ const logout = () => {
                                     <span className="font-extrabold text-xl text-white tracking-widest">RAKSHA</span>
                                 </div>
                                 <div className="flex items-center gap-3">
-                                    {/* INSTALL BUTTON - Will show if browser supports PWA trigger */}
                                     <button onClick={handleInstallClick} className="flex items-center gap-1 bg-fuchsia-500/20 text-fuchsia-300 px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-wider animate-pulse border border-fuchsia-500/30 hover:bg-fuchsia-500/30 transition-colors"><Download className="w-3 h-3" /> Install</button>
                                     
-                                    <button onClick={logout} className="p-2.5 bg-white/5 border border-white/10 rounded-full text-purple-200 hover:text-white hover:bg-white/10 transition-colors"><User className="w-5 h-5" /></button>
+                                    <button onClick={logout} className="p-2.5 bg-white/5 border border-white/10 rounded-full text-slate-200 hover:text-white hover:bg-white/10 transition-colors"><User className="w-5 h-5" /></button>
                                 </div>
                             </div>
                         </header>
                     )}
 
                     {/* MAIN CONTENT AREA */}
-                    {/* CONDITIONAL RENDERING FOR FULL SCREEN MAP */}
                     {activeTab === 'map' ? (
                         <div className="h-full w-full absolute inset-0 z-0">
                             <MapScreen apiCall={apiCall} showToast={showToast} />
@@ -650,8 +646,6 @@ const logout = () => {
         }
 
         /* --- SCREEN COMPONENTS --- */
-
-        // (HomeScreen, RightsScreen, ProtocolsScreen, HelplinesScreen, ContactsScreen, LegalChatScreen as they are)
         function HomeScreen({ user, apiCall, showToast, onChangeTab, onPanic }) {
             const [sosActive, setSosActive] = useState(false);
             const [sirenActive, setSirenActive] = useState(false);
@@ -675,31 +669,18 @@ const logout = () => {
             };
             const stopRecording = () => { if (recordingIntervalRef.current) clearInterval(recordingIntervalRef.current); if (mediaRecorderRef.current) { mediaRecorderRef.current.stop(); mediaRecorderRef.current.stream.getTracks().forEach(track => track.stop()); } };
             const triggerSOS = async () => { 
-  try { 
-    if(onPanic) { 
-      onPanic(); 
-    } else { 
-      await apiCall('/api/panic', 'POST'); 
-    } 
-    setSosActive(true); 
-    startRecording(); 
-  } catch (err) { 
-    console.error('Trigger SOS error:', err); 
-  } 
-};
-
-const resolveSOS = async () => { 
-  try { 
-    await apiCall('/api/panic/resolve', 'POST'); 
-    setSosActive(false); 
-    showToast("SOS Resolved."); 
-    stopRecording(); 
-    if(window.sirenManager) window.sirenManager.stop(); 
-    setSirenActive(false); 
-  } catch (err) { 
-    console.error('Resolve SOS error:', err); 
-  } 
-};
+                try { 
+                    if(onPanic) { onPanic(); } else { await apiCall('/api/panic', 'POST'); } 
+                    setSosActive(true); startRecording(); 
+                } catch (err) { console.error('Trigger SOS error:', err); } 
+            };
+            const resolveSOS = async () => { 
+                try { 
+                    await apiCall('/api/panic/resolve', 'POST'); 
+                    setSosActive(false); showToast("SOS Resolved."); stopRecording(); 
+                    if(window.sirenManager) window.sirenManager.stop(); setSirenActive(false); 
+                } catch (err) { console.error('Resolve SOS error:', err); } 
+            };
             const toggleSiren = () => { if (sirenActive) { sirenRef.current.stop(); setSirenActive(false); } else { sirenRef.current.start(); setSirenActive(true); } };
             const openQuiz = () => { window.location.href = 'quiz.html'; };
             return (
@@ -707,7 +688,7 @@ const resolveSOS = async () => {
                     {fakeCallActive && <FakeCallOverlay onClose={() => setFakeCallActive(false)} />}
                     <div className="glass-panel p-8 relative overflow-hidden group rounded-[2.5rem] border-fuchsia-500/20">
                         <div className="absolute -top-10 -right-10 w-48 h-48 bg-fuchsia-600/20 rounded-full blur-3xl group-hover:bg-fuchsia-500/30 transition-all duration-700"></div>
-                        <div className="relative z-10"><h2 className="text-3xl font-light mb-2 text-white">Hello, <span className="font-bold text-fuchsia-300">{user.email?.split('@')[0]}</span></h2><p className="text-purple-200/60 text-sm font-medium tracking-wide">Status: <span className="text-emerald-400 font-bold tracking-widest bg-emerald-500/10 px-2 py-0.5 rounded-lg border border-emerald-500/20">SECURE</span></p></div>
+                        <div className="relative z-10"><h2 className="text-3xl font-light mb-2 text-white">Hello, <span className="font-bold text-fuchsia-300">{user.email?.split('@')[0]}</span></h2><p className="text-slate-200/60 text-sm font-medium tracking-wide">Status: <span className="text-emerald-400 font-bold tracking-widest bg-emerald-500/10 px-2 py-0.5 rounded-lg border border-emerald-500/20">SECURE</span></p></div>
                     </div>
                     <div className="flex gap-6 justify-center items-center py-2">
                         <div className="flex flex-col items-center gap-4 relative">
@@ -717,205 +698,57 @@ const resolveSOS = async () => {
                         </div>
                         <div className="flex flex-col items-center gap-3"><button onClick={toggleSiren} className={`relative w-24 h-24 rounded-[2rem] flex flex-col items-center justify-center transition-all duration-300 shadow-xl border ${sirenActive ? 'bg-orange-500 animate-pulse shadow-[0_0_40px_rgba(249,115,22,0.6)] border-orange-400 text-white' : 'glass-panel hover:bg-white/10 border-white/10 text-orange-400'}`}><Megaphone className="w-8 h-8 mb-2" /><span className="text-[10px] font-bold uppercase tracking-wider">{sirenActive ? 'STOP' : 'SIREN'}</span></button></div>
                     </div>
-                    <div><h3 className="text-xs font-bold text-fuchsia-200/50 uppercase tracking-[0.2em] mb-4 ml-2">Quick Actions</h3><div className="grid grid-cols-2 gap-4">{[{ id: 'helplines', icon: Phone, label: 'Helplines', sub: 'Emergency', color: 'text-rose-400', bg: 'bg-rose-500/10', border: 'hover:border-rose-500/50' }, { id: 'map', icon: MapPin, label: 'Safe Map', sub: 'Navigation', color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'hover:border-emerald-500/50' }, { id: 'fakecall', icon: PhoneIncoming, label: 'Fake Call', sub: 'Simulate', color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'hover:border-blue-500/50', action: () => setFakeCallActive(true) }, { id: 'quiz', icon: Trophy, label: 'Quiz', sub: 'Knowledge', color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'hover:border-amber-500/50', action: openQuiz }, { id: 'rights', icon: Scale, label: 'My Rights', sub: 'Legal Info', color: 'text-indigo-400', bg: 'bg-indigo-500/10', border: 'hover:border-indigo-500/50' }, { id: 'protocols', icon: BookOpen, label: 'Guides', sub: 'Safety', color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'hover:border-purple-500/50' }].map((item, i) => (<button key={i} onClick={item.action || (() => onChangeTab(item.id))} className={`glass-panel p-5 hover:bg-white/10 transition-all duration-300 text-left group border border-white/5 ${item.border} rounded-[2rem] flex flex-col justify-between h-32`}><div className={`${item.bg} p-3 rounded-2xl w-fit group-hover:scale-110 transition-transform duration-300 shadow-lg`}><item.icon className={`w-6 h-6 ${item.color}`}/></div><div><div className="font-bold text-white text-lg leading-none mb-1">{item.label}</div><div className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">{item.sub}</div></div></button>))}</div></div>
+                    <div><h3 className="text-xs font-bold text-slate-200/50 uppercase tracking-[0.2em] mb-4 ml-2">Quick Actions</h3><div className="grid grid-cols-2 gap-4">{[{ id: 'helplines', icon: Phone, label: 'Helplines', sub: 'Emergency', color: 'text-rose-400', bg: 'bg-rose-500/10', border: 'hover:border-rose-500/50' }, { id: 'map', icon: MapPin, label: 'Safe Map', sub: 'Navigation', color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'hover:border-emerald-500/50' }, { id: 'fakecall', icon: PhoneIncoming, label: 'Fake Call', sub: 'Simulate', color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'hover:border-blue-500/50', action: () => setFakeCallActive(true) }, { id: 'quiz', icon: Trophy, label: 'Quiz', sub: 'Knowledge', color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'hover:border-amber-500/50', action: openQuiz }, { id: 'rights', icon: Scale, label: 'My Rights', sub: 'Legal Info', color: 'text-indigo-400', bg: 'bg-indigo-500/10', border: 'hover:border-indigo-500/50' }, { id: 'protocols', icon: BookOpen, label: 'Guides', sub: 'Safety', color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'hover:border-purple-500/50' }].map((item, i) => (<button key={i} onClick={item.action || (() => onChangeTab(item.id))} className={`glass-panel p-5 hover:bg-white/10 transition-all duration-300 text-left group border border-white/5 ${item.border} rounded-[2rem] flex flex-col justify-between h-32`}><div className={`${item.bg} p-3 rounded-2xl w-fit group-hover:scale-110 transition-transform duration-300 shadow-lg`}><item.icon className={`w-6 h-6 ${item.color}`}/></div><div><div className="font-bold text-white text-lg leading-none mb-1">{item.label}</div><div className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">{item.sub}</div></div></button>))}</div></div>
                 </div>
             );
         }
 
-        // ... (Keep RightsScreen, ProtocolsScreen, HelplinesScreen, ContactsScreen, LegalChatScreen) ...
-        function RightsScreen({ onBack }) { const [selectedId, setSelectedId] = useState(null); const rights = [{ id: 1, title: "Right to Zero FIR", desc: "You can file a First Information Report (FIR) at any police station irrespective of the location of the incident." }, { id: 2, title: "No Arrest After Sunset", desc: "Under Section 46 of CrPC, women cannot be arrested after sunset and before sunrise." }, { id: 3, title: "Right to Privacy", desc: "Identity of a rape victim must be kept confidential." }, { id: 4, title: "Right to Free Legal Aid", desc: "Female victims have the right to free legal assistance." }, { id: 5, title: "Virtual Complaints", desc: "You have the right to file a complaint via email or post." }]; return (<div className="space-y-6 animate-in slide-in-from-right duration-300"><div className="flex items-center gap-4 mb-8"><button onClick={onBack} className="p-3 glass-panel rounded-full hover:bg-white/10 active:scale-90 transition-transform"><ArrowLeft className="w-6 h-6 text-white" /></button><h2 className="text-2xl font-bold text-white tracking-tight">Your Legal Rights</h2></div><div className="space-y-4">{rights.map(right => (<div key={right.id} className={`glass-panel overflow-hidden transition-all duration-500 rounded-[1.5rem] border ${selectedId === right.id ? 'bg-white/10 border-fuchsia-500/40 shadow-lg shadow-fuchsia-900/20' : 'border-white/5'}`}><button onClick={() => setSelectedId(selectedId === right.id ? null : right.id)} className="w-full p-5 flex items-center justify-between text-left"><div className="flex items-center gap-4"><div className="bg-indigo-500/20 p-2.5 rounded-xl text-indigo-300 border border-indigo-500/30"><Scale className="w-5 h-5"/></div><span className="font-bold text-gray-100 text-sm leading-snug">{right.title}</span></div>{selectedId === right.id ? <ChevronUp className="w-5 h-5 text-fuchsia-400"/> : <ChevronDown className="w-5 h-5 text-gray-500"/>}</button>{selectedId === right.id && <div className="px-5 pb-5 pt-0 text-sm text-purple-100/80 leading-relaxed border-t border-white/5 mt-2 pt-4">{right.desc}</div>}</div>))}</div></div>); }
-        function ProtocolsScreen({ onBack }) { const [selectedId, setSelectedId] = useState(null); const protocols = [{ id: 'general', title: 'General Safety', icon: Shield, color: 'text-emerald-400', bg: 'bg-emerald-500/20', steps: ['Stay aware of surroundings', 'Keep emergency contacts ready', 'Trust your instincts', 'Share location with family'] }, { id: 'harassment', title: 'Harassment', icon: AlertTriangle, color: 'text-orange-400', bg: 'bg-orange-500/20', steps: ['Move to a crowded area', 'Call 100 or Emergency SOS', 'Do not engage the harasser', 'Record evidence if safe'] }, { id: 'medical', title: 'Medical Emergency', icon: CheckCircle, color: 'text-rose-400', bg: 'bg-rose-500/20', steps: ['Check for breathing/pulse', 'Call Ambulance immediately', 'Perform CPR if trained', 'Do not move patient unless necessary'] }]; return (<div className="space-y-6 animate-in slide-in-from-right duration-300"><div className="flex items-center gap-4 mb-8"><button onClick={onBack} className="p-3 glass-panel rounded-full hover:bg-white/10 active:scale-90 transition-transform"><ArrowLeft className="w-6 h-6 text-white" /></button><h2 className="text-2xl font-bold text-white tracking-tight">Safety Protocols</h2></div>{protocols.map(p => (<div key={p.id} className={`glass-panel overflow-hidden transition-all duration-500 rounded-[1.5rem] border ${selectedId === p.id ? 'bg-white/10 border-white/20' : 'border-white/5'}`}><button onClick={() => setSelectedId(selectedId === p.id ? null : p.id)} className="w-full p-5 flex items-center justify-between text-left"><div className="flex items-center gap-4"><div className={`${p.bg} p-2.5 rounded-xl ${p.color} border border-white/10 shadow-inner`}><p.icon className="w-5 h-5"/></div><span className="font-bold text-gray-100">{p.title}</span></div>{selectedId === p.id ? <ChevronUp className="w-5 h-5 text-gray-400"/> : <ChevronDown className="w-5 h-5 text-gray-600"/>}</button>{selectedId === p.id && (<div className="px-5 pb-5 pt-0"><ul className="space-y-4 mt-2">{p.steps.map((step, idx) => (<li key={idx} className="flex gap-4 text-sm text-purple-100/80 items-start"><span className={`text-[10px] font-black px-2 py-1 rounded-md bg-white/10 text-white border border-white/10 min-w-[24px] text-center`}>{idx + 1}</span><span className="leading-snug pt-0.5">{step}</span></li>))}</ul></div>)}</div>))}</div>); }
-        function HelplinesScreen({ onBack }) { const helplines = [{ name: "National Emergency", number: "112", bg: "bg-rose-500/20", text: "text-rose-300", border: "border-rose-500/40" }, { name: "Police", number: "100", bg: "bg-blue-500/20", text: "text-blue-300", border: "border-blue-500/40" }, { name: "Women Helpline", number: "1091", bg: "bg-pink-500/20", text: "text-pink-300", border: "border-pink-500/40" }, { name: "Ambulance", number: "102", bg: "bg-emerald-500/20", text: "text-emerald-300", border: "border-emerald-500/40" }, { name: "Fire Brigade", number: "101", bg: "bg-orange-500/20", text: "text-orange-300", border: "border-orange-500/40" }, { name: "Cyber Crime", number: "1930", bg: "bg-indigo-500/20", text: "text-indigo-300", border: "border-indigo-500/40" }]; return (<div className="space-y-6 animate-in slide-in-from-right duration-300"><div className="flex items-center gap-4 mb-8"><button onClick={onBack} className="p-3 glass-panel rounded-full hover:bg-white/10 active:scale-90 transition-transform"><ArrowLeft className="w-6 h-6 text-white" /></button><h2 className="text-2xl font-bold text-white tracking-tight">Emergency Numbers</h2></div><div className="grid gap-4">{helplines.map((h, i) => (<div key={i} className={`glass-panel p-5 flex items-center justify-between border hover:bg-white/10 transition-colors rounded-[1.5rem] ${h.border} shadow-lg`}><div className="flex items-center gap-5"><div className={`${h.bg} w-12 h-12 rounded-2xl flex items-center justify-center ${h.text} border border-white/10 shadow-inner`}><Phone className="w-6 h-6"/></div><div><h3 className="text-gray-400 font-bold text-[10px] uppercase tracking-widest mb-1">{h.name}</h3><p className="text-2xl font-black text-white tracking-wide font-mono">{h.number}</p></div></div><a href={`tel:${h.number}`} className="bg-white/5 hover:bg-emerald-500/20 text-gray-400 hover:text-emerald-400 p-3.5 rounded-full transition-all border border-white/10 hover:border-emerald-500/30 hover:scale-110 shadow-lg"><Phone className="w-5 h-5"/></a></div>))}</div></div>); }
+        function RightsScreen({ onBack }) { 
+            const [selectedId, setSelectedId] = useState(null); 
+            const rights = [{ id: 1, title: "Right to Zero FIR", desc: "You can file a First Information Report (FIR) at any police station irrespective of the location of the incident." }, { id: 2, title: "No Arrest After Sunset", desc: "Under Section 46 of CrPC, women cannot be arrested after sunset and before sunrise." }, { id: 3, title: "Right to Privacy", desc: "Identity of a rape victim must be kept confidential." }, { id: 4, title: "Right to Free Legal Aid", desc: "Female victims have the right to free legal assistance." }, { id: 5, title: "Virtual Complaints", desc: "You have the right to file a complaint via email or post." }]; 
+            return (<div className="space-y-6 animate-in slide-in-from-right duration-300"><div className="flex items-center gap-4 mb-8"><button onClick={onBack} className="p-3 glass-panel rounded-full hover:bg-white/10 active:scale-90 transition-transform"><ArrowLeft className="w-6 h-6 text-white" /></button><h2 className="text-2xl font-bold text-white tracking-tight">Your Legal Rights</h2></div><div className="space-y-4">{rights.map(right => (<div key={right.id} className={`glass-panel overflow-hidden transition-all duration-500 rounded-[1.5rem] border ${selectedId === right.id ? 'bg-white/10 border-fuchsia-500/40 shadow-lg shadow-fuchsia-900/20' : 'border-white/5'}`}><button onClick={() => setSelectedId(selectedId === right.id ? null : right.id)} className="w-full p-5 flex items-center justify-between text-left"><div className="flex items-center gap-4"><div className="bg-indigo-500/20 p-2.5 rounded-xl text-indigo-300 border border-indigo-500/30"><Scale className="w-5 h-5"/></div><span className="font-bold text-gray-100 text-sm leading-snug">{right.title}</span></div>{selectedId === right.id ? <ChevronUp className="w-5 h-5 text-fuchsia-400"/> : <ChevronDown className="w-5 h-5 text-gray-500"/>}</button>{selectedId === right.id && <div className="px-5 pb-5 pt-0 text-sm text-purple-100/80 leading-relaxed border-t border-white/5 mt-2 pt-4">{right.desc}</div>}</div>))}</div></div>); 
+        }
+
+        function ProtocolsScreen({ onBack }) { 
+            const [selectedId, setSelectedId] = useState(null); 
+            const protocols = [{ id: 'general', title: 'General Safety', icon: Shield, color: 'text-emerald-400', bg: 'bg-emerald-500/20', steps: ['Stay aware of surroundings', 'Keep emergency contacts ready', 'Trust your instincts', 'Share location with family'] }, { id: 'harassment', title: 'Harassment', icon: AlertTriangle, color: 'text-orange-400', bg: 'bg-orange-500/20', steps: ['Move to a crowded area', 'Call 100 or Emergency SOS', 'Do not engage the harasser', 'Record evidence if safe'] }, { id: 'medical', title: 'Medical Emergency', icon: CheckCircle, color: 'text-rose-400', bg: 'bg-rose-500/20', steps: ['Check for breathing/pulse', 'Call Ambulance immediately', 'Perform CPR if trained', 'Do not move patient unless necessary'] }]; 
+            return (<div className="space-y-6 animate-in slide-in-from-right duration-300"><div className="flex items-center gap-4 mb-8"><button onClick={onBack} className="p-3 glass-panel rounded-full hover:bg-white/10 active:scale-90 transition-transform"><ArrowLeft className="w-6 h-6 text-white" /></button><h2 className="text-2xl font-bold text-white tracking-tight">Safety Protocols</h2></div>{protocols.map(p => (<div key={p.id} className={`glass-panel overflow-hidden transition-all duration-500 rounded-[1.5rem] border ${selectedId === p.id ? 'bg-white/10 border-white/20' : 'border-white/5'}`}><button onClick={() => setSelectedId(selectedId === p.id ? null : p.id)} className="w-full p-5 flex items-center justify-between text-left"><div className="flex items-center gap-4"><div className={`${p.bg} p-2.5 rounded-xl ${p.color} border border-white/10 shadow-inner`}><p.icon className="w-5 h-5"/></div><span className="font-bold text-gray-100">{p.title}</span></div>{selectedId === p.id ? <ChevronUp className="w-5 h-5 text-gray-400"/> : <ChevronDown className="w-5 h-5 text-gray-600"/>}</button>{selectedId === p.id && (<div className="px-5 pb-5 pt-0"><ul className="space-y-4 mt-2">{p.steps.map((step, idx) => (<li key={idx} className="flex gap-4 text-sm text-purple-100/80 items-start"><span className={`text-[10px] font-black px-2 py-1 rounded-md bg-white/10 text-white border border-white/10 min-w-[24px] text-center`}>{idx + 1}</span><span className="leading-snug pt-0.5">{step}</span></li>))}</ul></div>)}</div>))}</div>); 
+        }
+
+        function HelplinesScreen({ onBack }) { 
+            const helplines = [{ name: "National Emergency", number: "112", bg: "bg-rose-500/20", text: "text-rose-300", border: "border-rose-500/40" }, { name: "Police", number: "100", bg: "bg-blue-500/20", text: "text-blue-300", border: "border-blue-500/40" }, { name: "Women Helpline", number: "1091", bg: "bg-pink-500/20", text: "text-pink-300", border: "border-pink-500/40" }, { name: "Ambulance", number: "102", bg: "bg-emerald-500/20", text: "text-emerald-300", border: "border-emerald-500/40" }, { name: "Fire Brigade", number: "101", bg: "bg-orange-500/20", text: "text-orange-300", border: "border-orange-500/40" }, { name: "Cyber Crime", number: "1930", bg: "bg-indigo-500/20", text: "text-indigo-300", border: "border-indigo-500/40" }]; 
+            return (<div className="space-y-6 animate-in slide-in-from-right duration-300"><div className="flex items-center gap-4 mb-8"><button onClick={onBack} className="p-3 glass-panel rounded-full hover:bg-white/10 active:scale-90 transition-transform"><ArrowLeft className="w-6 h-6 text-white" /></button><h2 className="text-2xl font-bold text-white tracking-tight">Emergency Numbers</h2></div><div className="grid gap-4">{helplines.map((h, i) => (<div key={i} className={`glass-panel p-5 flex items-center justify-between border hover:bg-white/10 transition-colors rounded-[1.5rem] ${h.border} shadow-lg`}><div className="flex items-center gap-5"><div className={`${h.bg} w-12 h-12 rounded-2xl flex items-center justify-center ${h.text} border border-white/10 shadow-inner`}><Phone className="w-6 h-6"/></div><div><h3 className="text-gray-400 font-bold text-[10px] uppercase tracking-widest mb-1">{h.name}</h3><p className="text-2xl font-black text-white tracking-wide font-mono">{h.number}</p></div></div><a href={`tel:${h.number}`} className="bg-white/5 hover:bg-emerald-500/20 text-gray-400 hover:text-emerald-400 p-3.5 rounded-full transition-all border border-white/10 hover:border-emerald-500/30 hover:scale-110 shadow-lg"><Phone className="w-5 h-5"/></a></div>))}</div></div>); 
+        }
 
         function ContactsScreen({ apiCall, showToast }) { 
-  const [contacts, setContacts] = useState([]); 
-  const [showAddForm, setShowAddForm] = useState(false); 
-
-  useEffect(() => { 
-    loadContacts(); 
-  }, []); 
-
-  const loadContacts = async () => { 
-    try { 
-      const data = await apiCall('/api/contacts'); 
-      setContacts(data || []); 
-    } catch (err) { 
-      console.error('Load contacts error:', err); 
-      showToast("Failed to load contacts", "error");
-    } 
-  }; 
-
-  const addContact = async (e) => { 
-    e.preventDefault(); 
-    const formData = new FormData(e.target); 
-    try { 
-      await apiCall('/api/contacts', 'POST', Object.fromEntries(formData)); 
-      showToast("Contact added"); 
-      setShowAddForm(false); 
-      e.target.reset();
-      loadContacts(); 
-    } catch (err) { 
-      console.error('Add contact error:', err);
-      showToast("Failed to add contact", "error"); 
-    } 
-  }; 
-
-  const deleteContact = async (id) => { 
-    try { 
-      await apiCall(`/api/contacts/${id}`, 'DELETE'); 
-      setContacts(prev => prev.filter(c => c.contact_id !== id)); 
-      showToast("Contact removed"); 
-    } catch (err) { 
-      console.error('Delete contact error:', err);
-      showToast("Failed to delete", "error"); 
-    } 
-  }; 
-
-  return (
-    <div className="space-y-6 animate-in slide-in-from-right duration-300">
-      <div className="flex justify-between items-center mb-6">
-        <h2 className="text-2xl font-bold text-white tracking-tight">Trusted Contacts</h2>
-        <button 
-          onClick={() => setShowAddForm(!showAddForm)} 
-          className="bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white shadow-lg p-3 rounded-xl hover:scale-105 transition-transform"
-        >
-          {showAddForm ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}
-        </button>
-      </div>
-
-      {showAddForm && (
-        <div className="glass-panel p-6 animate-in slide-in-from-top-4 mb-6 rounded-[2rem] border-fuchsia-500/30">
-          <h3 className="font-bold mb-6 text-white text-lg">Add Trusted Contact</h3>
-          <form onSubmit={addContact}>
-            <Input name="contact_name" label="Name" placeholder="Mom" required />
-            <Input name="contact_phone" label="Phone Number" placeholder="+91..." required />
-            <Input name="relationship_type" label="Relationship" placeholder="Parent/Sibling/Friend" required />
-            <Button type="submit" className="w-full py-4 mt-2">Save</Button>
-          </form>
-        </div>
-      )}
-
-      <div className="space-y-4">
-        {contacts.length === 0 ? (
-          <div className="text-center py-16 text-gray-500 glass-panel rounded-[2rem]">
-            <User className="w-16 h-16 mx-auto mb-4 opacity-20" />
-            <p className="font-medium">No contacts yet.</p>
-          </div>
-        ) : (
-          contacts.map((contact) => (
-            <div 
-              key={contact.contact_id} 
-              className="glass-panel p-5 flex justify-between items-center rounded-[1.5rem] border border-white/5 hover:border-fuchsia-500/30 transition-colors"
-            >
-              <div className="flex items-center gap-5">
-                <div className="bg-gradient-to-br from-fuchsia-500 to-purple-600 w-12 h-12 rounded-2xl flex items-center justify-center text-white font-bold shadow-lg text-lg">
-                  {contact.contact_name[0]}
+            const [contacts, setContacts] = useState([]); 
+            const [showAddForm, setShowAddForm] = useState(false); 
+            useEffect(() => { loadContacts(); }, []); 
+            const loadContacts = async () => { try { const data = await apiCall('/api/contacts'); setContacts(data || []); } catch (err) { console.error('Load contacts error:', err); showToast("Failed to load contacts", "error"); } }; 
+            const addContact = async (e) => { e.preventDefault(); const formData = new FormData(e.target); try { await apiCall('/api/contacts', 'POST', Object.fromEntries(formData)); showToast("Contact added"); setShowAddForm(false); e.target.reset(); loadContacts(); } catch (err) { console.error('Add contact error:', err); showToast("Failed to add contact", "error"); } }; 
+            const deleteContact = async (id) => { try { await apiCall(`/api/contacts/${id}`, 'DELETE'); setContacts(prev => prev.filter(c => c.contact_id !== id)); showToast("Contact removed"); } catch (err) { console.error('Delete contact error:', err); showToast("Failed to delete", "error"); } }; 
+            return (
+                <div className="space-y-6 animate-in slide-in-from-right duration-300">
+                    <div className="flex justify-between items-center mb-6"><h2 className="text-2xl font-bold text-white tracking-tight">Trusted Contacts</h2><button onClick={() => setShowAddForm(!showAddForm)} className="bg-gradient-to-r from-fuchsia-600 to-purple-600 text-white shadow-lg p-3 rounded-xl hover:scale-105 transition-transform">{showAddForm ? <X className="w-5 h-5" /> : <Plus className="w-5 h-5" />}</button></div>
+                    {showAddForm && (<div className="glass-panel p-6 animate-in slide-in-from-top-4 mb-6 rounded-[2rem] border-fuchsia-500/30"><h3 className="font-bold mb-6 text-white text-lg">Add Trusted Contact</h3><form onSubmit={addContact}><Input name="contact_name" label="Name" placeholder="Mom" required /><Input name="contact_phone" label="Phone Number" placeholder="+91..." required /><Input name="relationship_type" label="Relationship" placeholder="Parent/Sibling/Friend" required /><Button type="submit" className="w-full py-4 mt-2">Save</Button></form></div>)}
+                    <div className="space-y-4">{contacts.length === 0 ? (<div className="text-center py-16 text-gray-500 glass-panel rounded-[2rem]"><User className="w-16 h-16 mx-auto mb-4 opacity-20" /><p className="font-medium">No contacts yet.</p></div>) : (contacts.map((contact) => (<div key={contact.contact_id} className="glass-panel p-5 flex justify-between items-center rounded-[1.5rem] border border-white/5 hover:border-fuchsia-500/30 transition-colors"><div className="flex items-center gap-5"><div className="bg-gradient-to-br from-fuchsia-500 to-purple-600 w-12 h-12 rounded-2xl flex items-center justify-center text-white font-bold shadow-lg text-lg">{contact.contact_name[0]}</div><div><h4 className="font-bold text-white text-lg leading-tight">{contact.contact_name}</h4><p className="text-xs text-fuchsia-200/60 font-medium mt-1 uppercase tracking-wide">{contact.relationship_type}</p></div></div><button onClick={() => deleteContact(contact.contact_id)} className="text-gray-500 hover:text-red-400 p-3 rounded-xl hover:bg-red-500/10 transition-all"><Trash2 className="w-5 h-5" /></button></div>)))}</div>
                 </div>
-                <div>
-                  <h4 className="font-bold text-white text-lg leading-tight">{contact.contact_name}</h4>
-                  <p className="text-xs text-fuchsia-200/60 font-medium mt-1 uppercase tracking-wide">
-                    {contact.relationship_type}
-                  </p>
-                </div>
-              </div>
-              <button 
-                onClick={() => deleteContact(contact.contact_id)} 
-                className="text-gray-500 hover:text-red-400 p-3 rounded-xl hover:bg-red-500/10 transition-all"
-              >
-                <Trash2 className="w-5 h-5" />
-              </button>
-            </div>
-          ))
-        )}
-      </div>
-    </div>
-  ); 
-}
+            ); 
+        }
 
         function LegalChatScreen({ apiCall }) { 
-  const [messages, setMessages] = useState([{ 
-    role: 'bot', 
-    text: 'Hello! I am your legal AI companion. I\'m here to empower you with knowledge about your rights. How can I assist you today?' 
-  }]); 
-  const [input, setInput] = useState(''); 
-  const [isTyping, setIsTyping] = useState(false); 
-  const messagesEndRef = useRef(null); 
-
-  useEffect(() => { 
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); 
-  }, [messages]); 
-
-  const sendMessage = async (e) => { 
-    e.preventDefault(); 
-    if (!input.trim()) return; 
-
-    const userMsg = input; 
-    setMessages(prev => [...prev, { role: 'user', text: userMsg }]); 
-    setInput(''); 
-    setIsTyping(true); 
-
-    try { 
-      const data = await apiCall('/api/chat', 'POST', { question: userMsg }); 
-      setMessages(prev => [...prev, { role: 'bot', text: data.answer }]); 
-    } catch (err) { 
-      console.error('Chat error:', err);
-      setMessages(prev => [...prev, { role: 'bot', text: "I'm having trouble connecting right now, but remember: You are strong." }]); 
-    } finally { 
-      setIsTyping(false); 
-    } 
-  }; 
-
-  return (
-    <div className="flex flex-col h-[calc(100vh-140px)] animate-in slide-in-from-right duration-300">
-      <div className="glass-panel p-5 mb-4 flex items-center gap-4 border-b border-white/5 rounded-[2rem]">
-        <div className="p-2.5 bg-gradient-to-tr from-fuchsia-500 to-purple-600 rounded-xl shadow-lg">
-          <MessageSquare className="w-5 h-5 text-white" />
-        </div>
-        <div>
-          <h2 className="text-lg font-bold text-white tracking-wide">Legal AI</h2>
-          <p className="text-[10px] text-fuchsia-200 uppercase tracking-widest font-bold">Powered by Gemini</p>
-        </div>
-      </div>
-      <div className="flex-1 overflow-y-auto p-2 space-y-6">
-        {messages.map((msg, i) => (
-          <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[85%] p-4 rounded-[1.5rem] text-sm leading-relaxed shadow-lg ${msg.role === 'user' ? 'bg-gradient-to-br from-fuchsia-600 to-purple-600 text-white rounded-br-sm' : 'glass-panel text-gray-100 rounded-bl-sm border border-white/10'}`}>
-              {msg.text}
-            </div>
-          </div>
-        ))}
-        {isTyping && (
-          <div className="flex justify-start">
-            <div className="glass-panel p-4 rounded-[1.5rem] rounded-bl-sm flex gap-1.5">
-              <span className="w-2 h-2 bg-fuchsia-400 rounded-full animate-bounce"></span>
-              <span className="w-2 h-2 bg-fuchsia-400 rounded-full animate-bounce delay-75"></span>
-              <span className="w-2 h-2 bg-fuchsia-400 rounded-full animate-bounce delay-150"></span>
-            </div>
-          </div>
-        )}
-        <div ref={messagesEndRef} />
-      </div>
-      <form onSubmit={sendMessage} className="p-2 glass-panel rounded-[2rem] mt-4 border border-fuchsia-500/20">
-        <div className="relative">
-          <input 
-            type="text" 
-            value={input} 
-            onChange={(e) => setInput(e.target.value)} 
-            placeholder="Type your legal question..." 
-            className="w-full pl-6 pr-14 py-4 bg-transparent text-white placeholder-gray-500 text-sm focus:outline-none font-medium" 
-          />
-          <button 
-            type="submit" 
-            disabled={!input.trim()} 
-            className="absolute right-2 top-1/2 -translate-y-1/2 p-3 bg-fuchsia-600 rounded-full text-white disabled:opacity-50 disabled:bg-gray-700 hover:bg-fuchsia-500 transition-all hover:scale-105 shadow-lg"
-          >
-            <Send className="w-4 h-4" />
-          </button>
-        </div>
-      </form>
-    </div>
-  ); 
-}
+            const [messages, setMessages] = useState([{ role: 'bot', text: 'Hello! I am your legal AI companion. I\'m here to empower you with knowledge about your rights. How can I assist you today?' }]); 
+            const [input, setInput] = useState(''); const [isTyping, setIsTyping] = useState(false); const messagesEndRef = useRef(null); 
+            useEffect(() => { messagesEndRef.current?.scrollIntoView({ behavior: "smooth" }); }, [messages]); 
+            const sendMessage = async (e) => { e.preventDefault(); if (!input.trim()) return; const userMsg = input; setMessages(prev => [...prev, { role: 'user', text: userMsg }]); setInput(''); setIsTyping(true); try { const data = await apiCall('/api/chat', 'POST', { question: userMsg }); setMessages(prev => [...prev, { role: 'bot', text: data.answer }]); } catch (err) { console.error('Chat error:', err); setMessages(prev => [...prev, { role: 'bot', text: "I'm having trouble connecting right now, but remember: You are strong." }]); } finally { setIsTyping(false); } }; 
+            return (
+                <div className="flex flex-col h-[calc(100vh-140px)] animate-in slide-in-from-right duration-300">
+                    <div className="glass-panel p-5 mb-4 flex items-center gap-4 border-b border-white/5 rounded-[2rem]"><div className="p-2.5 bg-gradient-to-tr from-fuchsia-500 to-purple-600 rounded-xl shadow-lg"><MessageSquare className="w-5 h-5 text-white" /></div><div><h2 className="text-lg font-bold text-white tracking-wide">Legal AI</h2><p className="text-[10px] text-fuchsia-200 uppercase tracking-widest font-bold">Powered by Gemini</p></div></div>
+                    <div className="flex-1 overflow-y-auto p-2 space-y-6">{messages.map((msg, i) => (<div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}><div className={`max-w-[85%] p-4 rounded-[1.5rem] text-sm leading-relaxed shadow-lg ${msg.role === 'user' ? 'bg-gradient-to-br from-fuchsia-600 to-purple-600 text-white rounded-br-sm' : 'glass-panel text-gray-100 rounded-bl-sm border border-white/10'}`}>{msg.text}</div></div>))} {isTyping && (<div className="flex justify-start"><div className="glass-panel p-4 rounded-[1.5rem] rounded-bl-sm flex gap-1.5"><span className="w-2 h-2 bg-fuchsia-400 rounded-full animate-bounce"></span><span className="w-2 h-2 bg-fuchsia-400 rounded-full animate-bounce delay-75"></span><span className="w-2 h-2 bg-fuchsia-400 rounded-full animate-bounce delay-150"></span></div></div>)}<div ref={messagesEndRef} /></div>
+                    <form onSubmit={sendMessage} className="p-2 glass-panel rounded-[2rem] mt-4 border border-fuchsia-500/20"><div className="relative"><input type="text" value={input} onChange={(e) => setInput(e.target.value)} placeholder="Type your legal question..." className="w-full pl-6 pr-14 py-4 bg-transparent text-white placeholder-gray-500 text-sm focus:outline-none font-medium" /><button type="submit" disabled={!input.trim()} className="absolute right-2 top-1/2 -translate-y-1/2 p-3 bg-fuchsia-600 rounded-full text-white disabled:opacity-50 disabled:bg-gray-700 hover:bg-fuchsia-500 transition-all hover:scale-105 shadow-lg"><Send className="w-4 h-4" /></button></div></form>
+                </div>
+            ); 
+        }
 
         /* --- UPDATED FULL SCREEN MAP SCREEN --- */
         function MapScreen({ apiCall, showToast }) {
@@ -928,108 +761,30 @@ const resolveSOS = async () => {
 
             React.useEffect(() => {
                 if (!mapInstance.current && mapContainer.current) {
-                    // CHANGED: Coordinates for Cuttack, Odisha
                     mapInstance.current = L.map(mapContainer.current, { zoomControl: false }).setView([20.4625, 85.8828], 13);
-
-                    L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', {
-                        maxZoom: 20,
-                        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
-                        attribution: '© Google Maps'
-                    }).addTo(mapInstance.current);
-
-                    // Re-add Heatmap
-                    const loadHeatmap = async () => {
-                        try {
-                            const response = await fetch(`${API_BASE_URL}/map-geojson`);
-                            const data = await response.json();
-                            const heatPoints = data.features.map(f => [
-                                f.geometry.coordinates[1], 
-                                f.geometry.coordinates[0], 
-                                f.properties.weight 
-                            ]);
-                            L.heatLayer(heatPoints, { radius: 25, blur: 15, gradient: {0.4: 'green', 0.65: 'yellow', 1.0: 'red'} }).addTo(mapInstance.current);
-                        } catch (err) { console.error("Heatmap err", err); }
-                    };
+                    L.tileLayer('https://{s}.google.com/vt/lyrs=m&x={x}&y={y}&z={z}', { maxZoom: 20, subdomains: ['mt0', 'mt1', 'mt2', 'mt3'], attribution: '© Google Maps' }).addTo(mapInstance.current);
+                    const loadHeatmap = async () => { try { const response = await fetch(`${API_BASE_URL}/map-geojson`); const data = await response.json(); const heatPoints = data.features.map(f => [f.geometry.coordinates[1], f.geometry.coordinates[0], f.properties.weight]); L.heatLayer(heatPoints, { radius: 25, blur: 15, gradient: {0.4: 'green', 0.65: 'yellow', 1.0: 'red'} }).addTo(mapInstance.current); } catch (err) { console.error("Heatmap err", err); } };
                     loadHeatmap();
                 }
-
-                // Force map resize to fill container
                 setTimeout(() => { if(mapInstance.current) mapInstance.current.invalidateSize(); }, 100);
-
                 return () => { if (mapInstance.current) { mapInstance.current.remove(); mapInstance.current = null; } };
             }, []);
 
-            const getCoords = async (query) => {
-                const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`);
-                const data = await res.json();
-                if (!data || data.length === 0) throw new Error(`Location not found: ${query}`);
-                return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) };
-            };
-
-            const handleGetRoute = async () => {
-                if (!source || !destination) { if(showToast) showToast("Please enter destination", "error"); return; }
-                setLoading(true);
-                try {
-                    const end = await getCoords(destination);
-
-                    let start = { lat: 20.4625, lon: 85.8828 }; 
-                    if(source !== 'Your Location') start = await getCoords(source);
-
-                    const data = await apiCall('/api/generate-safe-route', 'POST', { startLat: start.lat, startLon: start.lon, endLat: end.lat, endLon: end.lon });
-
-                    if (data.path && mapInstance.current) {
-                        if (polylineRef.current) mapInstance.current.removeLayer(polylineRef.current);
-                        const latlngs = data.path.map(p => [p.lat, p.lon]);
-                        polylineRef.current = L.polyline(latlngs, { color: '#22c55e', weight: 6, opacity: 0.9 }).addTo(mapInstance.current);
-                        mapInstance.current.fitBounds(polylineRef.current.getBounds(), { padding: [100, 100] });
-                    }
-                } catch (error) { if(showToast) showToast(error.message || "Route failed", "error"); } 
-                finally { setLoading(false); }
-            };
+            const getCoords = async (query) => { const res = await fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${query}`); const data = await res.json(); if (!data || data.length === 0) throw new Error(`Location not found: ${query}`); return { lat: parseFloat(data[0].lat), lon: parseFloat(data[0].lon) }; };
+            const handleGetRoute = async () => { if (!source || !destination) { if(showToast) showToast("Please enter destination", "error"); return; } setLoading(true); try { const end = await getCoords(destination); let start = { lat: 20.4625, lon: 85.8828 }; if(source !== 'Your Location') start = await getCoords(source); const data = await apiCall('/api/generate-safe-route', 'POST', { startLat: start.lat, startLon: start.lon, endLat: end.lat, endLon: end.lon }); if (data.path && mapInstance.current) { if (polylineRef.current) mapInstance.current.removeLayer(polylineRef.current); const latlngs = data.path.map(p => [p.lat, p.lon]); polylineRef.current = L.polyline(latlngs, { color: '#22c55e', weight: 6, opacity: 0.9 }).addTo(mapInstance.current); mapInstance.current.fitBounds(polylineRef.current.getBounds(), { padding: [100, 100] }); } } catch (error) { if(showToast) showToast(error.message || "Route failed", "error"); } finally { setLoading(false); } };
 
             return (
                 <div className="h-full w-full relative">
-                    {/* Full Screen Map Container */}
                     <div ref={mapContainer} className="h-full w-full z-0 bg-gray-900" />
-
-                    {/* Google Maps Style Floating Search */}
                     <div className="absolute top-4 left-4 right-4 z-[1000] flex flex-col gap-2 animate-in slide-in-from-top duration-500">
                         <div className="bg-white rounded-2xl shadow-xl p-3 flex flex-col gap-0 border border-gray-200">
-                            <div className="flex items-center gap-3 p-1">
-                                <div className="w-4 h-4 rounded-full border-[3px] border-blue-500 shrink-0"></div>
-                                <input className="w-full text-sm font-semibold text-gray-700 bg-transparent outline-none placeholder-gray-400" 
-                                       value={source} onChange={(e) => setSource(e.target.value)} placeholder="Your Location" />
-                            </div>
+                            <div className="flex items-center gap-3 p-1"><div className="w-4 h-4 rounded-full border-[3px] border-blue-500 shrink-0"></div><input className="w-full text-sm font-semibold text-gray-700 bg-transparent outline-none placeholder-gray-400" value={source} onChange={(e) => setSource(e.target.value)} placeholder="Your Location" /></div>
                             <div className="w-full h-[1px] bg-gray-100 my-1 ml-8"></div>
-                            <div className="flex items-center gap-3 p-1">
-                                <div className="w-4 h-4 rounded-full border-[3px] border-red-500 shrink-0"></div>
-                                <input className="w-full text-sm font-semibold text-gray-800 bg-transparent outline-none placeholder-gray-400" 
-                                       value={destination} onChange={(e) => setDestination(e.target.value)} placeholder="Choose destination" />
-                                <button onClick={handleGetRoute} className="p-2 bg-blue-600 rounded-lg text-white shadow-lg active:scale-95 transition-transform">
-                                    {loading ? <Loader2 className="w-5 h-5 animate-spin"/> : <Search className="w-5 h-5"/>}
-                                </button>
-                            </div>
+                            <div className="flex items-center gap-3 p-1"><div className="w-4 h-4 rounded-full border-[3px] border-red-500 shrink-0"></div><input className="w-full text-sm font-semibold text-gray-800 bg-transparent outline-none placeholder-gray-400" value={destination} onChange={(e) => setDestination(e.target.value)} placeholder="Choose destination" /><button onClick={handleGetRoute} className="p-2 bg-blue-600 rounded-lg text-white shadow-lg active:scale-95 transition-transform">{loading ? <Loader2 className="w-5 h-5 animate-spin"/> : <Search className="w-5 h-5"/>}</button></div>
                         </div>
                     </div>
-
-                    {/* Floating Map Actions (Compass, Layers - Visual only for now) */}
-                    <div className="absolute top-36 right-4 z-[1000] flex flex-col gap-3">
-                        <button className="bg-white p-3 rounded-full shadow-lg text-gray-600 hover:text-blue-600 transition-colors"><Navigation className="w-5 h-5" /></button>
-                        <button className="bg-white p-3 rounded-full shadow-lg text-gray-600 hover:text-blue-600 transition-colors"><MoreVertical className="w-5 h-5" /></button>
-                    </div>
-
-                    {/* Bottom Info Card (Visible only when route is found - Mock for now) */}
-                    {polylineRef.current && (
-                        <div className="absolute bottom-28 left-4 right-4 z-[1000] animate-in slide-in-from-bottom duration-300">
-                            <div className="bg-white rounded-2xl p-4 shadow-2xl border-l-4 border-green-500 flex justify-between items-center">
-                                <div>
-                                    <h4 className="text-green-600 font-bold text-xs uppercase tracking-wider mb-1">Safest Route Found</h4>
-                                    <p className="text-gray-800 font-bold text-lg">22 min <span className="text-gray-400 font-normal text-sm">(via Safe Zone A)</span></p>
-                                </div>
-                                <button className="bg-green-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-green-700 active:scale-95 transition-all">Start</button>
-                            </div>
-                        </div>
-                    )}
+                    <div className="absolute top-36 right-4 z-[1000] flex flex-col gap-3"><button className="bg-white p-3 rounded-full shadow-lg text-gray-600 hover:text-blue-600 transition-colors"><Navigation className="w-5 h-5" /></button><button className="bg-white p-3 rounded-full shadow-lg text-gray-600 hover:text-blue-600 transition-colors"><MoreVertical className="w-5 h-5" /></button></div>
+                    {polylineRef.current && (<div className="absolute bottom-28 left-4 right-4 z-[1000] animate-in slide-in-from-bottom duration-300"><div className="bg-white rounded-2xl p-4 shadow-2xl border-l-4 border-green-500 flex justify-between items-center"><div><h4 className="text-green-600 font-bold text-xs uppercase tracking-wider mb-1">Safest Route Found</h4><p className="text-gray-800 font-bold text-lg">22 min <span className="text-gray-400 font-normal text-sm">(via Safe Zone A)</span></p></div><button className="bg-green-600 text-white px-6 py-3 rounded-xl font-bold shadow-lg hover:bg-green-700 active:scale-95 transition-all">Start</button></div></div>)}
                 </div>
             );
         }

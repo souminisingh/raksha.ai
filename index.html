@@ -33,22 +33,25 @@
         html {
             background-color: #110524;
         }
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            -webkit-tap-highlight-color: transparent; 
-            background-color: #110524;
-            background-image: 
-                radial-gradient(circle at 10% 20%, rgba(219, 39, 119, 0.25) 0%, transparent 40%),
-                radial-gradient(circle at 90% 80%, rgba(124, 58, 237, 0.3) 0%, transparent 40%),
-                linear-gradient(180deg, #1e0a3c 0%, #110524 100%);
-            background-attachment: fixed;
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+    
+    /* --- NEW BACKGROUND START --- */
+            background-image: url('https://i.pinimg.com/originals/15/d2/84/15d284f1896798e4f55393666504a3f3.jpg');
             background-size: cover;
-            color: #fdf4ff;
-            overflow: hidden;
-            height: 100vh;
-            width: 100vw;
-            overscroll-behavior: none;
-        }
+            background-position: center;
+            background-attachment: fixed;
+            background-repeat: no-repeat;
+    /* --- NEW BACKGROUND END --- */
+
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            color: white;
+    }
+        
 
         /* Pulse Animations */
         .animate-pulse-slow { animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite; }

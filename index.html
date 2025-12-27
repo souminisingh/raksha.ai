@@ -3,263 +3,218 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Raksha - Women Safety App</title>
+    <title>Raksha - Women Safety</title>
 
-    <meta name="theme-color" content="#110524">
+    <meta name="theme-color" content="#FDEFF4">
     <meta name="mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-status-bar-style" content="default">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <style>
-        /* Base Styling & Background */
-        html, body {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            background: #0d0221;
-            overflow: hidden;
-        }
-
-        body { 
-            font-family: 'Plus Jakarta Sans', sans-serif; 
-            -webkit-tap-highlight-color: transparent;
-            color: white;
-            background-image: 
-                linear-gradient(rgba(13, 2, 33, 0.85), rgba(13, 2, 33, 0.96)), 
-                url('https://i.pinimg.com/originals/15/d2/84/15d284f1896798e4f55393666504a3f3.jpg');
-            background-size: cover;
-            background-position: center;
-            background-attachment: fixed;
-            background-repeat: no-repeat;
-        }
-
-        #root {
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            overflow: hidden;
-        }
-
-        .glass-panel {
-            background: rgba(255, 255, 255, 0.04);
-            backdrop-filter: blur(30px);
-            -webkit-backdrop-filter: blur(30px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .danger-pulse {
-            animation: pulse-danger 2s infinite;
-        }
-
-        @keyframes pulse-danger {
-            0% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.6); }
-            70% { box-shadow: 0 0 0 35px rgba(239, 68, 68, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(239, 68, 68, 0); }
-        }
-
-        .tab-active {
-            background: #d946ef;
-            color: white;
-            box-shadow: 0 12px 28px -5px rgba(217, 70, 239, 0.5);
-            transform: translateY(-2px);
-        }
-
-        .page-enter {
-            animation: slideUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(30px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .no-scrollbar::-webkit-scrollbar { display: none; }
-        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
-</head>
-<body>
-    <div id="root"></div>
-
-    <!-- Script Dependencies -->
     <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
     <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            color: #1A1A1A;
+            /* WALLPAPER CHANGE HAPPENS HERE */
+            background-image: url('https://i.pinimg.com/736x/8d/61/80/8d618059080b06437146522f1839075e.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 100vh;
+        }
+
+        /* Overlay to ensure text readability against the wallpaper */
+        .bg-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(253, 239, 244, 0.4); /* Soft tint to match the app theme */
+            z-index: -1;
+        }
+
+        .main-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 40px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+        }
+
+        .sos-container {
+            background: #FFE5EE;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .sos-btn {
+            background: #FF3B7E; 
+            border-radius: 50%;
+            width: 140px;
+            height: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            box-shadow: 0 15px 35px rgba(255, 59, 126, 0.4);
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: none;
+        }
+
+        .sos-btn:active {
+            transform: scale(0.92);
+        }
+
+        .nav-pill {
+            background: rgba(244, 245, 249, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            height: 70px;
+            padding: 0 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .nav-item-active {
+            background: #FF3B7E;
+            color: white !important;
+            border-radius: 25px;
+            padding: 10px 20px;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(0.9); opacity: 0.8; }
+            100% { transform: scale(1.6); opacity: 0; }
+        }
+
+        .pulse {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: #FF3B7E;
+            animation: pulse-ring 2s cubic-bezier(0.215, 0.61, 0.355, 1) infinite;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body>
+    <div class="bg-overlay"></div>
+    <div id="root"></div>
 
     <script type="text/babel">
-        const { useState, useEffect, useCallback } = React;
-        
-        /**
-         * Robust Icon Component
-         * Fixed to prevent React Error #130 by ensuring we return a valid element
-         */
-        const Icon = ({ name, size = 24, className = "" }) => {
-            // Check if lucide is available globally
-            if (typeof lucide === 'undefined' || !lucide) {
-                return <div style={{ width: size, height: size }} className={className}></div>;
-            }
-            
-            // Normalize icon name
-            const iconKey = name.charAt(0).toUpperCase() + name.slice(1);
-            const LucideIcon = lucide[iconKey];
-            
-            if (!LucideIcon) {
-                return <span className={className}>●</span>;
-            }
-            
-            // Create the element correctly
-            return <LucideIcon size={size} className={className} strokeWidth={2.3} />;
-        };
+        const { useState } = React;
 
-        const NavButton = ({ id, icon, label, active, onClick }) => (
-            <button
-                onClick={() => onClick(id)}
-                className={`flex-1 flex flex-col items-center py-4 rounded-2xl transition-all duration-500 ${
-                    active ? 'tab-active' : 'text-white/20 hover:text-white/40'
-                }`}
-            >
-                <Icon name={icon} size={20} className={active ? 'animate-pulse' : ''} />
-                <span className="text-[8px] font-black mt-2 uppercase tracking-[0.2em]">{label}</span>
-            </button>
-        );
+        const Icon = ({ name, size = 24, className = "" }) => {
+            const icons = {
+                shield: <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>,
+                map: <path d="M1 6v16l7-4 8 4 7-4V2l-7 4-8-4-7 4zm7-4v16m8 4V6"/>,
+                phone: <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/>,
+                settings: (
+                    <>
+                        <circle cx="12" cy="12" r="3"/>
+                        <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+                    </>
+                ),
+                bell: (
+                    <>
+                        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    </>
+                )
+            };
+            return (
+                <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className={className}>
+                    {icons[name]}
+                </svg>
+            );
+        };
 
         function App() {
             const [activeTab, setActiveTab] = useState('home');
-            const [isSosActive, setIsSosActive] = useState(false);
-            const [isLoaded, setIsLoaded] = useState(false);
-
-            useEffect(() => {
-                // Ensure lucide is ready before showing UI to prevent blank screen
-                const checkLucide = setInterval(() => {
-                    if (typeof lucide !== 'undefined') {
-                        setIsLoaded(true);
-                        clearInterval(checkLucide);
-                    }
-                }, 50);
-                return () => clearInterval(checkLucide);
-            }, []);
-
-            const toggleSos = useCallback(() => {
-                setIsSosActive(prev => !prev);
-            }, []);
-
-            if (!isLoaded) return null;
 
             return (
-                <div className="flex-1 flex flex-col max-w-md mx-auto w-full relative h-full no-scrollbar">
+                <div className="flex flex-col h-screen max-w-md mx-auto relative pt-12 px-6 pb-10">
                     {/* Header */}
-                    <header className="px-8 pt-16 pb-6 flex justify-between items-center z-10 shrink-0">
-                        <div>
-                            <h1 className="text-3xl font-black tracking-tighter text-white italic">RAKSHA</h1>
-                            <div className="flex items-center gap-2 mt-1">
-                                <div className={`w-2 h-2 rounded-full ${isSosActive ? 'bg-red-500' : 'bg-fuchsia-400'} animate-pulse shadow-lg`}></div>
-                                <p className="text-[10px] text-fuchsia-300 font-bold uppercase tracking-widest">Shield Active</p>
-                            </div>
+                    <header className="flex justify-between items-center mb-10">
+                        <div className="flex items-center gap-3">
+                            <img src="https://raw.githubusercontent.com/AshSharma07/RAKSHA/main/image.jpg" className="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm" alt="profile"/>
+                            <span className="font-bold text-gray-800">Hi, Priya!</span>
                         </div>
-                        <button className="p-4 rounded-2xl glass-panel text-white/80 active:scale-90 transition-all">
-                            <Icon name="Bell" size={20} />
+                        <button className="w-11 h-11 bg-white/80 backdrop-blur rounded-full flex items-center justify-center text-gray-400 shadow-sm">
+                            <Icon name="bell" size={20} />
                         </button>
                     </header>
 
-                    {/* Content Section */}
-                    <main className="flex-1 px-7 pb-36 overflow-y-auto no-scrollbar">
-                        <div className="page-enter">
-                            {activeTab === 'home' && (
-                                <div className="space-y-12 py-4">
-                                    <div className="flex flex-col items-center justify-center py-6">
-                                        <div className="relative">
-                                            <div className={`absolute inset-0 rounded-full blur-[80px] opacity-30 transition-all duration-1000 ${isSosActive ? 'bg-red-600' : 'bg-fuchsia-500'}`}></div>
-                                            
-                                            <button 
-                                                onClick={toggleSos}
-                                                className={`relative w-64 h-64 rounded-full flex flex-col items-center justify-center border-[12px] transition-all duration-700 transform active:scale-95 ${
-                                                    isSosActive 
-                                                    ? 'bg-red-600 border-red-400/30 danger-pulse' 
-                                                    : 'bg-gradient-to-br from-fuchsia-600 to-indigo-950 border-white/5 shadow-2xl'
-                                                }`}
-                                            >
-                                                <Icon name="ShieldAlert" size={80} className="text-white mb-2" />
-                                                <span className="text-5xl font-black text-white tracking-tighter italic">{isSosActive ? 'ACTIVE' : 'SOS'}</span>
-                                                <span className="text-[10px] text-white/40 font-bold uppercase tracking-[0.4em] mt-4">
-                                                    {isSosActive ? 'Alert Sent' : 'Hold to Help'}
-                                                </span>
-                                            </button>
-                                        </div>
-                                    </div>
+                    {/* Welcome Text */}
+                    <div className="mb-10">
+                        <h2 className="text-4xl font-extrabold text-gray-900 leading-tight">
+                            Your safety is<br/>
+                            <span className="text-[#FF3B7E]">our priority</span>
+                        </h2>
+                    </div>
 
-                                    <div className="glass-panel rounded-[2.5rem] p-7 flex items-center gap-6 border border-white/10 shadow-xl">
-                                        <div className="w-14 h-14 rounded-2xl bg-green-500/10 flex items-center justify-center border border-green-500/20">
-                                            <Icon name="ShieldCheck" className="text-green-400" size={28} />
-                                        </div>
-                                        <div className="flex-1">
-                                            <h3 className="font-bold text-white text-lg tracking-tight">Real-time GPS</h3>
-                                            <p className="text-white/30 text-[9px] font-black uppercase tracking-widest">Encryption Active</p>
-                                        </div>
-                                        <Icon name="ChevronRight" size={18} className="text-white/10" />
-                                    </div>
-                                    
-                                    <div className="grid grid-cols-2 gap-5">
-                                        <div className="glass-panel rounded-[2rem] p-7 active:scale-95 transition-all border border-white/5 shadow-lg">
-                                            <div className="w-11 h-11 rounded-xl bg-blue-500/10 flex items-center justify-center mb-5 border border-blue-500/20">
-                                                <Icon name="Phone" className="text-blue-400" size={22} />
-                                            </div>
-                                            <h4 className="font-bold text-white text-md tracking-tight">Police</h4>
-                                            <p className="text-white/20 text-[9px] mt-1 font-black uppercase tracking-widest italic">Emergency</p>
-                                        </div>
-                                        <div className="glass-panel rounded-[2rem] p-7 active:scale-95 transition-all border border-white/5 shadow-lg">
-                                            <div className="w-11 h-11 rounded-xl bg-purple-500/10 flex items-center justify-center mb-5 border border-purple-500/20">
-                                                <Icon name="Heart" className="text-purple-400" size={22} />
-                                            </div>
-                                            <h4 className="font-bold text-white text-md tracking-tight">Family</h4>
-                                            <p className="text-white/20 text-[9px] mt-1 font-black uppercase tracking-widest italic">3 Guardians</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            )}
-
-                            {activeTab !== 'home' && (
-                                <div className="flex flex-col items-center justify-center h-[60vh] glass-panel rounded-[3rem] border border-white/5 shadow-2xl text-center px-10">
-                                    <Icon name="Lock" size={48} className="text-white/10 mb-6" />
-                                    <h2 className="text-white/40 font-black text-xl uppercase tracking-tighter">Module Locked</h2>
-                                    <p className="text-white/20 font-bold uppercase tracking-widest text-[9px] mt-2">Verification Required</p>
-                                </div>
-                            )}
+                    {/* Main Interface Area */}
+                    <div className="main-card flex-1 flex flex-col items-center justify-center relative p-8">
+                        {/* Protection Badge */}
+                        <div className="absolute top-8 px-4 py-2 bg-green-50 text-green-600 rounded-full text-[10px] font-bold tracking-widest uppercase flex items-center gap-2">
+                            <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                            Live Tracking On
                         </div>
-                    </main>
 
-                    {/* Navigation Bar */}
-                    <nav className="fixed bottom-10 left-7 right-7 z-50">
-                        <div className="glass-panel rounded-[2.5rem] p-2 flex justify-between items-center shadow-2xl border border-white/10">
-                            {[
-                                { id: 'home', icon: 'Shield', label: 'Safety' },
-                                { id: 'map', icon: 'Navigation', label: 'Routes' },
-                                { id: 'community', icon: 'Users2', label: 'Circle' },
-                                { id: 'profile', icon: 'User', label: 'Me' }
-                            ].map((tab) => (
-                                <NavButton 
-                                    key={tab.id}
-                                    id={tab.id}
-                                    icon={tab.icon}
-                                    label={tab.label}
-                                    active={activeTab === tab.id}
-                                    onClick={setActiveTab}
-                                />
-                            ))}
+                        {/* Centered SOS Section */}
+                        <div className="sos-container w-64 h-64 mb-12">
+                            <div className="pulse"></div>
+                            <button className="sos-btn">
+                                <span className="text-4xl font-black mb-1">SOS</span>
+                                <span className="text-[10px] font-bold uppercase tracking-widest opacity-80">Help Me</span>
+                            </button>
                         </div>
-                    </nav>
+
+                        <p className="text-center text-gray-500 text-sm font-medium px-4">
+                            Hold the button for 3 seconds to send alerts to your family and nearest police station.
+                        </p>
+                    </div>
+
+                    {/* Modern Bottom Nav Pill */}
+                    <footer className="mt-8">
+                        <div className="nav-pill shadow-xl">
+                            <button onClick={() => setActiveTab('home')} className={`flex items-center gap-2 transition-all ${activeTab === 'home' ? 'nav-item-active' : 'text-gray-400'}`}>
+                                <Icon name="shield" size={22} />
+                                {activeTab === 'home' && <span className="text-xs font-bold">Safe</span>}
+                            </button>
+                            <button onClick={() => setActiveTab('map')} className={`flex items-center gap-2 transition-all ${activeTab === 'map' ? 'nav-item-active' : 'text-gray-400'}`}>
+                                <Icon name="map" size={22} />
+                                {activeTab === 'map' && <span className="text-xs font-bold">Routes</span>}
+                            </button>
+                            <button onClick={() => setActiveTab('contacts')} className={`flex items-center gap-2 transition-all ${activeTab === 'contacts' ? 'nav-item-active' : 'text-gray-400'}`}>
+                                <Icon name="phone" size={22} />
+                                {activeTab === 'contacts' && <span className="text-xs font-bold">Circle</span>}
+                            </button>
+                            <button onClick={() => setActiveTab('settings')} className={`flex items-center gap-2 transition-all ${activeTab === 'settings' ? 'nav-item-active' : 'text-gray-400'}`}>
+                                <Icon name="settings" size={22} />
+                                {activeTab === 'settings' && <span className="text-xs font-bold">Setup</span>}
+                            </button>
+                        </div>
+                    </footer>
                 </div>
             );
         }
 
-        // Final safety check for rendering
-        const container = document.getElementById('root');
-        if (container) {
-            const root = ReactDOM.createRoot(container);
-            root.render(<App />);
-        }
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        root.render(<App />);
     </script>
 </body>
 </html>

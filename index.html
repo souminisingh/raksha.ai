@@ -12,8 +12,8 @@
     <meta name="apple-mobile-web-app-title" content="Raksha">
     <meta name="application-name" content="Raksha">
 
-    <link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/souminisingh/raksha.ai/main/image.jpg">
-    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/souminisingh/raksha.ai/main/image.jpg">
+    <link rel="icon" type="image/jpeg" href="https://raw.githubusercontent.com/AshSharma07/RAKSHA/main/image.jpg">
+    <link rel="apple-touch-icon" href="https://raw.githubusercontent.com/AshSharma07/RAKSHA/main/image.jpg">
 
     <link rel="manifest" href="data:application/manifest+json;base64,eyJuYW1lIjoiUmFra3NoYSBXb21lbiBTYWZldHkiLCJzaG9ydF9uYW1lIjoiUmFra3NoYSIsInN0YXJ0X3VybCI6Ii4iLCJkaXNwbGF5Ijoic3RhbmRhbG9uZSIsImJhY2tncm91bmRfY29sb3IiOiIjMTEwNTI0IiwidGhlbWVfY29sb3IiOiIjZGIyNzc3Iiwib3JpZW50YXRpb24iOiJwb3J0cmFpdCIsImljb25zIjpbeyJzcmMiOiJodHRwczovL3Jhdy5naXRodWJ1c2VyY29udGVudC5jb20vQXNoU2hhcm1hMDcvUkFLU0hBL21haW4vaW1hZ2UuanBnIiwic2l6ZXMiOiIxOTJ4MTkyIiwidHlwZSI6ImltYWdlL2pwZWcifSx7InNyYyI6Imh0dHBzOi8vcmF3LmdpdGh1YnVzZXJjb250ZW50LmNvbS9Bc2hTaGFybWEwNy9SQUtTSEEvbWFpbi9pbWFnZS5qcGciLCJzaXplcyI6IjUxMng1MTIiLCJ0eXBlIjoiaW1hZ2UvanBlZyJ9XX0=">
 
@@ -34,18 +34,18 @@
 
     <style>
         html {
-            background-color: #0f172a;
+            background-color: #110524;
         }
         body { 
             font-family: 'Plus Jakarta Sans', sans-serif; 
             -webkit-tap-highlight-color: transparent; 
-            background-color: #0f172a;
+            background-color: #110524;
             
-            /* --- FIXED BACKGROUND IMAGE URL (RAW LINK) --- */
+            /* --- UPDATED BACKGROUND IMAGE --- */
             background-image: 
-                /* A dark overlay so text is readable */
-                linear-gradient(to bottom, rgba(15, 23, 42, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%),
-                /* Your image */
+                /* Dark overlay to ensure text is readable over the photo */
+                linear-gradient(to bottom, rgba(17, 5, 36, 0.8) 0%, rgba(17, 5, 36, 0.95) 100%),
+                /* Your custom image (Raw Link) */
                 url('https://raw.githubusercontent.com/souminisingh/raksha.ai/main/image.jpg');
             
             background-attachment: fixed;
@@ -74,17 +74,17 @@
             100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(236, 72, 153, 0); }
         }
 
-        /* Modern Glassmorphism Utilities - Neutral Theme */
+        /* Modern Glassmorphism Utilities - Neutral/Dark Theme to match photo */
         .glass-panel {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.4);
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
         }
 
         .glass-nav {
-            background: rgba(10, 10, 10, 0.85);
+            background: rgba(19, 5, 36, 0.85);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-top: 1px solid rgba(255, 255, 255, 0.08);
@@ -101,7 +101,7 @@
 
         .glass-input {
             background: rgba(0, 0, 0, 0.3);
-            border: 1px solid rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.15);
             color: white;
             transition: all 0.3s ease;
         }
@@ -132,6 +132,8 @@
 
     <script>
         // Attempt to register a Service Worker via Blob for single-file support
+        // Note: Chrome often blocks SW from Blobs for security. 
+        // For 100% reliability, this code must be in a file named 'sw.js'
         if ('serviceWorker' in navigator) {
             window.addEventListener('load', function() {
                 const swCode = `
@@ -259,7 +261,7 @@
 
         const Input = ({ label, name, type = "text", value, onChange, placeholder, required = false }) => (
             <div className="mb-5">
-                {label && <label className="block text-xs font-bold text-gray-300 mb-2 uppercase tracking-wider">{label}</label>}
+                {label && <label className="block text-xs font-bold text-fuchsia-200/80 mb-2 uppercase tracking-wider">{label}</label>}
                 <input name={name} type={type} value={value} onChange={onChange} placeholder={placeholder} required={required} className="w-full px-5 py-4 rounded-2xl glass-input placeholder-gray-400/70 outline-none" />
             </div>
         );
@@ -421,6 +423,7 @@
 
             const handleInstallClick = () => {
                 if (!installPrompt) {
+                    // Fallback: Instructions if browser blocks programmatic install
                     alert("To install: Tap the Share button (iOS) or Menu (Android) and select 'Add to Home Screen'");
                     return;
                 }
@@ -599,7 +602,7 @@
 
                     {/* HIDE HEADER IN MAP MODE */}
                     {activeTab !== 'map' && (
-                        <header className="fixed top-0 w-full z-40 h-20 flex items-center bg-gradient-to-b from-[#0f172a] via-[#0f172a]/90 to-transparent pointer-events-none">
+                        <header className="fixed top-0 w-full z-40 h-20 flex items-center bg-gradient-to-b from-[#110524] via-[#110524]/90 to-transparent pointer-events-none">
                             <div className="max-w-md mx-auto px-6 w-full flex justify-between items-center pointer-events-auto">
                                 <div className="flex items-center gap-3">
                                     <div className="bg-gradient-to-tr from-fuchsia-600 to-purple-600 p-2 rounded-xl shadow-lg shadow-purple-900/50">
@@ -610,7 +613,7 @@
                                 <div className="flex items-center gap-3">
                                     <button onClick={handleInstallClick} className="flex items-center gap-1 bg-fuchsia-500/20 text-fuchsia-300 px-4 py-2 rounded-full text-[10px] font-bold uppercase tracking-wider animate-pulse border border-fuchsia-500/30 hover:bg-fuchsia-500/30 transition-colors"><Download className="w-3 h-3" /> Install</button>
                                     
-                                    <button onClick={logout} className="p-2.5 bg-white/5 border border-white/10 rounded-full text-slate-200 hover:text-white hover:bg-white/10 transition-colors"><User className="w-5 h-5" /></button>
+                                    <button onClick={logout} className="p-2.5 bg-white/5 border border-white/10 rounded-full text-purple-200 hover:text-white hover:bg-white/10 transition-colors"><User className="w-5 h-5" /></button>
                                 </div>
                             </div>
                         </header>
@@ -690,7 +693,7 @@
                     {fakeCallActive && <FakeCallOverlay onClose={() => setFakeCallActive(false)} />}
                     <div className="glass-panel p-8 relative overflow-hidden group rounded-[2.5rem] border-fuchsia-500/20">
                         <div className="absolute -top-10 -right-10 w-48 h-48 bg-fuchsia-600/20 rounded-full blur-3xl group-hover:bg-fuchsia-500/30 transition-all duration-700"></div>
-                        <div className="relative z-10"><h2 className="text-3xl font-light mb-2 text-white">Hello, <span className="font-bold text-fuchsia-300">{user.email?.split('@')[0]}</span></h2><p className="text-slate-200/60 text-sm font-medium tracking-wide">Status: <span className="text-emerald-400 font-bold tracking-widest bg-emerald-500/10 px-2 py-0.5 rounded-lg border border-emerald-500/20">SECURE</span></p></div>
+                        <div className="relative z-10"><h2 className="text-3xl font-light mb-2 text-white">Hello, <span className="font-bold text-fuchsia-300">{user.email?.split('@')[0]}</span></h2><p className="text-purple-200/60 text-sm font-medium tracking-wide">Status: <span className="text-emerald-400 font-bold tracking-widest bg-emerald-500/10 px-2 py-0.5 rounded-lg border border-emerald-500/20">SECURE</span></p></div>
                     </div>
                     <div className="flex gap-6 justify-center items-center py-2">
                         <div className="flex flex-col items-center gap-4 relative">
@@ -700,7 +703,7 @@
                         </div>
                         <div className="flex flex-col items-center gap-3"><button onClick={toggleSiren} className={`relative w-24 h-24 rounded-[2rem] flex flex-col items-center justify-center transition-all duration-300 shadow-xl border ${sirenActive ? 'bg-orange-500 animate-pulse shadow-[0_0_40px_rgba(249,115,22,0.6)] border-orange-400 text-white' : 'glass-panel hover:bg-white/10 border-white/10 text-orange-400'}`}><Megaphone className="w-8 h-8 mb-2" /><span className="text-[10px] font-bold uppercase tracking-wider">{sirenActive ? 'STOP' : 'SIREN'}</span></button></div>
                     </div>
-                    <div><h3 className="text-xs font-bold text-slate-200/50 uppercase tracking-[0.2em] mb-4 ml-2">Quick Actions</h3><div className="grid grid-cols-2 gap-4">{[{ id: 'helplines', icon: Phone, label: 'Helplines', sub: 'Emergency', color: 'text-rose-400', bg: 'bg-rose-500/10', border: 'hover:border-rose-500/50' }, { id: 'map', icon: MapPin, label: 'Safe Map', sub: 'Navigation', color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'hover:border-emerald-500/50' }, { id: 'fakecall', icon: PhoneIncoming, label: 'Fake Call', sub: 'Simulate', color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'hover:border-blue-500/50', action: () => setFakeCallActive(true) }, { id: 'quiz', icon: Trophy, label: 'Quiz', sub: 'Knowledge', color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'hover:border-amber-500/50', action: openQuiz }, { id: 'rights', icon: Scale, label: 'My Rights', sub: 'Legal Info', color: 'text-indigo-400', bg: 'bg-indigo-500/10', border: 'hover:border-indigo-500/50' }, { id: 'protocols', icon: BookOpen, label: 'Guides', sub: 'Safety', color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'hover:border-purple-500/50' }].map((item, i) => (<button key={i} onClick={item.action || (() => onChangeTab(item.id))} className={`glass-panel p-5 hover:bg-white/10 transition-all duration-300 text-left group border border-white/5 ${item.border} rounded-[2rem] flex flex-col justify-between h-32`}><div className={`${item.bg} p-3 rounded-2xl w-fit group-hover:scale-110 transition-transform duration-300 shadow-lg`}><item.icon className={`w-6 h-6 ${item.color}`}/></div><div><div className="font-bold text-white text-lg leading-none mb-1">{item.label}</div><div className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">{item.sub}</div></div></button>))}</div></div>
+                    <div><h3 className="text-xs font-bold text-purple-200/50 uppercase tracking-[0.2em] mb-4 ml-2">Quick Actions</h3><div className="grid grid-cols-2 gap-4">{[{ id: 'helplines', icon: Phone, label: 'Helplines', sub: 'Emergency', color: 'text-rose-400', bg: 'bg-rose-500/10', border: 'hover:border-rose-500/50' }, { id: 'map', icon: MapPin, label: 'Safe Map', sub: 'Navigation', color: 'text-emerald-400', bg: 'bg-emerald-500/10', border: 'hover:border-emerald-500/50' }, { id: 'fakecall', icon: PhoneIncoming, label: 'Fake Call', sub: 'Simulate', color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'hover:border-blue-500/50', action: () => setFakeCallActive(true) }, { id: 'quiz', icon: Trophy, label: 'Quiz', sub: 'Knowledge', color: 'text-amber-400', bg: 'bg-amber-500/10', border: 'hover:border-amber-500/50', action: openQuiz }, { id: 'rights', icon: Scale, label: 'My Rights', sub: 'Legal Info', color: 'text-indigo-400', bg: 'bg-indigo-500/10', border: 'hover:border-indigo-500/50' }, { id: 'protocols', icon: BookOpen, label: 'Guides', sub: 'Safety', color: 'text-purple-400', bg: 'bg-purple-500/10', border: 'hover:border-purple-500/50' }].map((item, i) => (<button key={i} onClick={item.action || (() => onChangeTab(item.id))} className={`glass-panel p-5 hover:bg-white/10 transition-all duration-300 text-left group border border-white/5 ${item.border} rounded-[2rem] flex flex-col justify-between h-32`}><div className={`${item.bg} p-3 rounded-2xl w-fit group-hover:scale-110 transition-transform duration-300 shadow-lg`}><item.icon className={`w-6 h-6 ${item.color}`}/></div><div><div className="font-bold text-white text-lg leading-none mb-1">{item.label}</div><div className="text-[10px] text-gray-400 uppercase tracking-wider font-semibold">{item.sub}</div></div></button>))}</div></div>
                 </div>
             );
         }
